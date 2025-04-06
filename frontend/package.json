@@ -16,6 +16,7 @@
     "@radix-ui/react-navigation-menu": "^1.2.5",
     "@radix-ui/react-slot": "^1.1.2",
     "@tailwindcss/vite": "^4.1.3",
+    "@tanstack/react-query": "^5.71.10",
     "@tanstack/react-router": "^1.114.34",
     "better-auth": "^1.2.5",
     "class-variance-authority": "^0.7.1",
@@ -31,6 +32,7 @@
   },
   "devDependencies": {
     "@eslint/js": "^9.21.0",
+    "@tanstack/eslint-plugin-query": "^5.71.5",
     "@tanstack/react-router-devtools": "^1.114.34",
     "@tanstack/router-plugin": "^1.114.34",
     "@types/node": "^22.14.0",

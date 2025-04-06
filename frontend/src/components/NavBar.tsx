@@ -3,13 +3,18 @@ import { ProfileDropdown } from "@/components/ProfileDropdown.tsx";
 import { Button } from "@/components/ui/button.tsx";
 import { authClient } from "@/lib/auth-client.ts";
 import { ThemeSwitcher } from "@/components/mode-toggle.tsx";
+import { useQuery } from "@tanstack/react-query";
+import { getSessionQueryOptions } from "@/lib/api.ts";
 
-const { data: session } = await authClient.getSession();
 const NavBar = () => {
+  const { data } = useQuery(getSessionQueryOptions);
   return (
     <nav className="p-4 flex justify-between items-center gap-2">
-      <Link to={"/"} className={"md:ml-2"}>
-        <img src={"./public/logo.png"} alt={"App logo"} className={"w-14"} />
+      <Link
+        to={"/"}
+        className={"md:ml-2 flex justify-center items-center gap-2"}
+      >
+        <img src={"/logo.png"} alt={"App logo"} className={"w-14"} />
       </Link>
       <div className={"flex justify-center items-center gap-2"}>
         <div className={"space-x-2 md:space-x-4 border p-2 rounded-lg"}>
@@ -24,7 +29,7 @@ const NavBar = () => {
           </Link>
         </div>
         <div className={"flex gap-2"}>
-          {session ? (
+          {data?.session ? (
             <ProfileDropdown />
           ) : (
             <Button

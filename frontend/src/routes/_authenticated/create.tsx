@@ -5,7 +5,7 @@ import { Calendar } from "@/components/ui/calendar.tsx";
 import { useState } from "react";
 import { Button } from "@/components/ui/button.tsx";
 
-export const Route = createFileRoute("/create")({
+export const Route = createFileRoute("/_authenticated/create")({
   component: RouteComponent,
 });
 

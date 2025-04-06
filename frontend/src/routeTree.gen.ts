@@ -11,31 +11,13 @@
 // Import Routes
 
 import { Route as rootRoute } from './routes/__root'
-import { Route as ProfileImport } from './routes/profile'
-import { Route as EventsImport } from './routes/events'
-import { Route as CreateImport } from './routes/create'
 import { Route as AuthenticatedImport } from './routes/_authenticated'
 import { Route as IndexImport } from './routes/index'
+import { Route as AuthenticatedProfileImport } from './routes/_authenticated/profile'
+import { Route as AuthenticatedEventsImport } from './routes/_authenticated/events'
+import { Route as AuthenticatedCreateImport } from './routes/_authenticated/create'
 
 // Create/Update Routes
-
-const ProfileRoute = ProfileImport.update({
-  id: '/profile',
-  path: '/profile',
-  getParentRoute: () => rootRoute,
-} as any)
-
-const EventsRoute = EventsImport.update({
-  id: '/events',
-  path: '/events',
-  getParentRoute: () => rootRoute,
-} as any)
-
-const CreateRoute = CreateImport.update({
-  id: '/create',
-  path: '/create',
-  getParentRoute: () => rootRoute,
-} as any)
 
 const AuthenticatedRoute = AuthenticatedImport.update({
   id: '/_authenticated',
@@ -46,6 +28,24 @@ const IndexRoute = IndexImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRoute,
+} as any)
+
+const AuthenticatedProfileRoute = AuthenticatedProfileImport.update({
+  id: '/profile',
+  path: '/profile',
+  getParentRoute: () => AuthenticatedRoute,
+} as any)
+
+const AuthenticatedEventsRoute = AuthenticatedEventsImport.update({
+  id: '/events',
+  path: '/events',
+  getParentRoute: () => AuthenticatedRoute,
+} as any)
+
+const AuthenticatedCreateRoute = AuthenticatedCreateImport.update({
+  id: '/create',
+  path: '/create',
+  getParentRoute: () => AuthenticatedRoute,
 } as any)
 
 // Populate the FileRoutesByPath interface
@@ -66,55 +66,71 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedImport
       parentRoute: typeof rootRoute
     }
-    '/create': {
-      id: '/create'
+    '/_authenticated/create': {
+      id: '/_authenticated/create'
       path: '/create'
       fullPath: '/create'
-      preLoaderRoute: typeof CreateImport
-      parentRoute: typeof rootRoute
+      preLoaderRoute: typeof AuthenticatedCreateImport
+      parentRoute: typeof AuthenticatedImport
     }
-    '/events': {
-      id: '/events'
+    '/_authenticated/events': {
+      id: '/_authenticated/events'
       path: '/events'
       fullPath: '/events'
-      preLoaderRoute: typeof EventsImport
-      parentRoute: typeof rootRoute
+      preLoaderRoute: typeof AuthenticatedEventsImport
+      parentRoute: typeof AuthenticatedImport
     }
-    '/profile': {
-      id: '/profile'
+    '/_authenticated/profile': {
+      id: '/_authenticated/profile'
       path: '/profile'
       fullPath: '/profile'
-      preLoaderRoute: typeof ProfileImport
-      parentRoute: typeof rootRoute
+      preLoaderRoute: typeof AuthenticatedProfileImport
+      parentRoute: typeof AuthenticatedImport
     }
   }
 }
 
 // Create and export the route tree
 
+interface AuthenticatedRouteChildren {
+  AuthenticatedCreateRoute: typeof AuthenticatedCreateRoute
+  AuthenticatedEventsRoute: typeof AuthenticatedEventsRoute
+  AuthenticatedProfileRoute: typeof AuthenticatedProfileRoute
+}
+
+const AuthenticatedRouteChildren: AuthenticatedRouteChildren = {
+  AuthenticatedCreateRoute: AuthenticatedCreateRoute,
+  AuthenticatedEventsRoute: AuthenticatedEventsRoute,
+  AuthenticatedProfileRoute: AuthenticatedProfileRoute,
+}
+
+const AuthenticatedRouteWithChildren = AuthenticatedRoute._addFileChildren(
+  AuthenticatedRouteChildren,
+)
+
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '': typeof AuthenticatedRoute
-  '/create': typeof CreateRoute
-  '/events': typeof EventsRoute
-  '/profile': typeof ProfileRoute
+  '': typeof AuthenticatedRouteWithChildren
+  '/create': typeof AuthenticatedCreateRoute
+  '/events': typeof AuthenticatedEventsRoute
+  '/profile': typeof AuthenticatedProfileRoute
 }
 
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '': typeof AuthenticatedRoute
-  '/create': typeof CreateRoute
-  '/events': typeof EventsRoute
-  '/profile': typeof ProfileRoute
+  '': typeof AuthenticatedRouteWithChildren
+  '/create': typeof AuthenticatedCreateRoute
+  '/events': typeof AuthenticatedEventsRoute
+  '/profile': typeof AuthenticatedProfileRoute
 }
 
 export interface FileRoutesById {
   __root__: typeof rootRoute
   '/': typeof IndexRoute
-  '/_authenticated': typeof AuthenticatedRoute
-  '/create': typeof CreateRoute
-  '/events': typeof EventsRoute
-  '/profile': typeof ProfileRoute
+  '/_authenticated': typeof AuthenticatedRouteWithChildren
+  '/_authenticated/create': typeof AuthenticatedCreateRoute
+  '/_authenticated/events': typeof AuthenticatedEventsRoute
+  '/_authenticated/profile': typeof AuthenticatedProfileRoute
 }
 
 export interface FileRouteTypes {
@@ -122,24 +138,24 @@ export interface FileRouteTypes {
   fullPaths: '/' | '' | '/create' | '/events' | '/profile'
   fileRoutesByTo: FileRoutesByTo
   to: '/' | '' | '/create' | '/events' | '/profile'
-  id: '__root__' | '/' | '/_authenticated' | '/create' | '/events' | '/profile'
+  id:
+    | '__root__'
+    | '/'
+    | '/_authenticated'
+    | '/_authenticated/create'
+    | '/_authenticated/events'
+    | '/_authenticated/profile'
   fileRoutesById: FileRoutesById
 }
 
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  AuthenticatedRoute: typeof AuthenticatedRoute
-  CreateRoute: typeof CreateRoute
-  EventsRoute: typeof EventsRoute
-  ProfileRoute: typeof ProfileRoute
+  AuthenticatedRoute: typeof AuthenticatedRouteWithChildren
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  AuthenticatedRoute: AuthenticatedRoute,
-  CreateRoute: CreateRoute,
-  EventsRoute: EventsRoute,
-  ProfileRoute: ProfileRoute,
+  AuthenticatedRoute: AuthenticatedRouteWithChildren,
 }
 
 export const routeTree = rootRoute
@@ -153,26 +169,31 @@ export const routeTree = rootRoute
       "filePath": "__root.tsx",
       "children": [
         "/",
-        "/_authenticated",
-        "/create",
-        "/events",
-        "/profile"
+        "/_authenticated"
       ]
     },
     "/": {
       "filePath": "index.tsx"
     },
     "/_authenticated": {
-      "filePath": "_authenticated.tsx"
+      "filePath": "_authenticated.tsx",
+      "children": [
+        "/_authenticated/create",
+        "/_authenticated/events",
+        "/_authenticated/profile"
+      ]
     },
-    "/create": {
-      "filePath": "create.tsx"
+    "/_authenticated/create": {
+      "filePath": "_authenticated/create.tsx",
+      "parent": "/_authenticated"
     },
-    "/events": {
-      "filePath": "events.tsx"
+    "/_authenticated/events": {
+      "filePath": "_authenticated/events.tsx",
+      "parent": "/_authenticated"
     },
-    "/profile": {
-      "filePath": "profile.tsx"
+    "/_authenticated/profile": {
+      "filePath": "_authenticated/profile.tsx",
+      "parent": "/_authenticated"
     }
   }
 }
