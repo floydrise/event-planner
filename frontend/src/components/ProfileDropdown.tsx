@@ -13,6 +13,8 @@ import {
   AvatarImage,
 } from "@/components/ui/avatar.tsx";
 import { cn } from "@/lib/utils.ts";
+import { authClient } from "@/lib/auth-client.ts";
+
 
 export function ProfileDropdown() {
   return (
@@ -21,16 +23,24 @@ export function ProfileDropdown() {
         <NavigationMenuItem>
           <NavigationMenuTrigger>
             <Avatar>
-              <AvatarImage src="https://github.com/shadcn.png" alt="profile pic" />
+              <AvatarImage
+                src="https://github.com/shadcn.png"
+                alt="profile pic"
+              />
               <AvatarFallback>CN</AvatarFallback>
             </Avatar>
           </NavigationMenuTrigger>
           <NavigationMenuContent>
             <ul className="grid gap-3 md:w-[100px] lg:grid-cols-1">
               <ListItem href="/profile" title="Profile">
-               <p className={"hidden md:block"}>Go to profile</p>
+                <p className={"hidden md:block"}>Go to profile</p>
               </ListItem>
-              <ListItem href="/profile" title="Logout">
+              <ListItem
+                title="Logout"
+                onClick={async () => {
+                  await authClient.signOut();
+                }}
+              >
                 <p className={"hidden md:block"}>App sign out</p>
               </ListItem>
             </ul>
