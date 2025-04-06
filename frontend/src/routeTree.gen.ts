@@ -14,6 +14,7 @@ import { Route as rootRoute } from './routes/__root'
 import { Route as ProfileImport } from './routes/profile'
 import { Route as EventsImport } from './routes/events'
 import { Route as CreateImport } from './routes/create'
+import { Route as AuthenticatedImport } from './routes/_authenticated'
 import { Route as IndexImport } from './routes/index'
 
 // Create/Update Routes
@@ -36,6 +37,11 @@ const CreateRoute = CreateImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
+const AuthenticatedRoute = AuthenticatedImport.update({
+  id: '/_authenticated',
+  getParentRoute: () => rootRoute,
+} as any)
+
 const IndexRoute = IndexImport.update({
   id: '/',
   path: '/',
@@ -51,6 +57,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexImport
+      parentRoute: typeof rootRoute
+    }
+    '/_authenticated': {
+      id: '/_authenticated'
+      path: ''
+      fullPath: ''
+      preLoaderRoute: typeof AuthenticatedImport
       parentRoute: typeof rootRoute
     }
     '/create': {
@@ -81,6 +94,7 @@ declare module '@tanstack/react-router' {
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '': typeof AuthenticatedRoute
   '/create': typeof CreateRoute
   '/events': typeof EventsRoute
   '/profile': typeof ProfileRoute
@@ -88,6 +102,7 @@ export interface FileRoutesByFullPath {
 
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '': typeof AuthenticatedRoute
   '/create': typeof CreateRoute
   '/events': typeof EventsRoute
   '/profile': typeof ProfileRoute
@@ -96,6 +111,7 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRoute
   '/': typeof IndexRoute
+  '/_authenticated': typeof AuthenticatedRoute
   '/create': typeof CreateRoute
   '/events': typeof EventsRoute
   '/profile': typeof ProfileRoute
@@ -103,15 +119,16 @@ export interface FileRoutesById {
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/create' | '/events' | '/profile'
+  fullPaths: '/' | '' | '/create' | '/events' | '/profile'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/create' | '/events' | '/profile'
-  id: '__root__' | '/' | '/create' | '/events' | '/profile'
+  to: '/' | '' | '/create' | '/events' | '/profile'
+  id: '__root__' | '/' | '/_authenticated' | '/create' | '/events' | '/profile'
   fileRoutesById: FileRoutesById
 }
 
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AuthenticatedRoute: typeof AuthenticatedRoute
   CreateRoute: typeof CreateRoute
   EventsRoute: typeof EventsRoute
   ProfileRoute: typeof ProfileRoute
@@ -119,6 +136,7 @@ export interface RootRouteChildren {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AuthenticatedRoute: AuthenticatedRoute,
   CreateRoute: CreateRoute,
   EventsRoute: EventsRoute,
   ProfileRoute: ProfileRoute,
@@ -135,6 +153,7 @@ export const routeTree = rootRoute
       "filePath": "__root.tsx",
       "children": [
         "/",
+        "/_authenticated",
         "/create",
         "/events",
         "/profile"
@@ -142,6 +161,9 @@ export const routeTree = rootRoute
     },
     "/": {
       "filePath": "index.tsx"
+    },
+    "/_authenticated": {
+      "filePath": "_authenticated.tsx"
     },
     "/create": {
       "filePath": "create.tsx"

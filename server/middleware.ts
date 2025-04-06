@@ -1,7 +1,7 @@
 import { createMiddleware } from "hono/factory";
 import { auth } from "../auth";
 
-export const authMiddleware = createMiddleware<{
+export const requireAuth = createMiddleware<{
   Variables: {
     user: typeof auth.$Infer.Session.user;
     session: typeof auth.$Infer.Session.session;

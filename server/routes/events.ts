@@ -1,13 +1,12 @@
-import { Context, Hono } from "hono";
+import { Hono } from "hono";
 import { zValidator } from "@hono/zod-validator";
-import { z } from "zod";
 import { eventsPostSchema, eventsTable } from "../db/schema/events";
 import { db } from "../db";
 import { and, eq } from "drizzle-orm";
-import { authMiddleware } from "../middleware";
+import { requireAuth } from "../middleware";
 
 const eventsRoute = new Hono()
-  .get("/", authMiddleware, async (c) => {
+  .get("/", requireAuth, async (c) => {
     const user = c.var.user;
     const events = await db
       .select()
@@ -15,7 +14,7 @@ const eventsRoute = new Hono()
       .where(eq(eventsTable.userId, user.id));
     return c.json({ events }, 200);
   })
-  .get("/:id{[0-9]+}", authMiddleware, async (c) => {
+  .get("/:id{[0-9]+}", requireAuth, async (c) => {
     const user = c.var.user;
     const { id } = c.req.param();
     const event = await db
@@ -33,14 +32,13 @@ const eventsRoute = new Hono()
   })
   .post(
     "/",
-    authMiddleware,
+    requireAuth,
     zValidator("json", eventsPostSchema, (result, c) => {
       if (!result.success) {
         return c.json({ msg: "Bad request" }, 400);
       }
     }),
     async (c) => {
-      const user = c.var.user;
       const validated = c.req.valid("json");
       const newEvent = await db
         .insert(eventsTable)
@@ -50,8 +48,7 @@ const eventsRoute = new Hono()
       return c.json(newEvent, 201);
     },
   )
-  .delete("/:id{[0-9]+}", authMiddleware, async (c) => {
-    const user = c.var.user;
+  .delete("/:id{[0-9]+}", requireAuth, async (c) => {
     const { id } = c.req.param();
     const deletedEvent = await db
       .delete(eventsTable)
