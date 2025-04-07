@@ -23,3 +23,4 @@ const app = new Hono()
   .get("/", (c) => c.json({ msg: "Howdy from api 🤠" }));
 
 export default app;
+export type AppType = typeof app;

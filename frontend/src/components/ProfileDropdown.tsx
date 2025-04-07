@@ -13,22 +13,12 @@ import {
   AvatarImage,
 } from "@/components/ui/avatar.tsx";
 import { cn } from "@/lib/utils.ts";
-import { authClient } from "@/lib/auth-client.ts";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { useNavigate } from "@tanstack/react-router";
-import { getSessionQueryOptions } from "@/lib/api.ts";
+import { useQuery } from "@tanstack/react-query";
+import { Link } from "@tanstack/react-router";
+import { getSessionQueryOptions, logOut } from "@/lib/api.ts";
 
 export function ProfileDropdown() {
-  const route = useNavigate();
-  const queryClient = useQueryClient();
-  const mutation = useMutation({
-    mutationKey: ["log-out"],
-    mutationFn: async () => await authClient.signOut(),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["session"] });
-      route({ to: "/" });
-    },
-  });
+  const mutation = logOut();
 
   const { data } = useQuery(getSessionQueryOptions);
   const user = data!.user;
@@ -50,12 +40,9 @@ export function ProfileDropdown() {
           </NavigationMenuTrigger>
           <NavigationMenuContent>
             <ul className="grid gap-3 md:w-[100px] lg:grid-cols-1">
-              <ListItem
-                title="Profile"
-                onClick={() => route({ to: "/profile" })}
-              >
-                Go to profile
-              </ListItem>
+              <Link to={"/profile"}>
+                <ListItem title="Profile">Go to profile</ListItem>
+              </Link>
               <ListItem
                 title="Logout"
                 onClick={() => {
