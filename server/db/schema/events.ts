@@ -16,7 +16,7 @@ export const eventsPostSchema = createInsertSchema(eventsTable, {
     .string()
     .min(3, { message: "Title should be at least 3 characters long" }),
   description: z.string().optional(),
-  userId: z.string()
+  userId: z.string(),
 }).omit({
   eventId: true,
   createdAt: true,

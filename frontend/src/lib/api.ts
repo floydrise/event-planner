@@ -34,3 +34,13 @@ export const logOut = () => {
   });
 };
 
+export const getEvents = async () => {
+  const res = await api.events.$get();
+  if (!res.ok) throw new Error("Error while fetching events");
+  return await res.json();
+};
+
+export const getEventsQueryOptions = queryOptions({
+  queryKey: ["get-events"],
+  queryFn: getEvents,
+});
