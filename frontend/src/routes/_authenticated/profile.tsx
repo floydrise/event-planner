@@ -8,10 +8,7 @@ import { Skeleton } from "@/components/ui/skeleton.tsx";
 export const Route = createFileRoute("/_authenticated/profile")({
   component: RouteComponent,
   loader: async ({ context }) => {
-    const session = await context.queryClient.ensureQueryData(
-      getSessionQueryOptions,
-    );
-    return { session };
+    await context.queryClient.ensureQueryData(getSessionQueryOptions);
   },
 });
 
@@ -28,7 +25,7 @@ function RouteComponent() {
         {isLoading ? (
           <Skeleton className={"size-8"} />
         ) : (
-          <Avatar>
+          <Avatar className={"size-12 border border-black"}>
             <AvatarImage src={user.image ?? ""} alt="User avatar image" />
             <AvatarFallback>
               {user.name.split("")[0][0] + user.name.split("")[1][0]}
@@ -46,6 +43,19 @@ function RouteComponent() {
           <h1>{user.name}</h1>
           <p className={"text-gray-600 dark:text-gray-400 font-light text-sm"}>
             {user.email}
+          </p>
+          <p
+            className={
+              "text-gray-600 font-semibold dark:text-gray-400 font-light text-sm"
+            }
+          >
+            Registered:{" "}
+            {user.createdAt
+              .toISOString()
+              .split("T")[0]
+              .split("-")
+              .reverse()
+              .join("-")}
           </p>
         </div>
       )}

@@ -48,6 +48,7 @@ export function ProfileDropdown() {
                 onClick={() => {
                   mutation.mutate();
                 }}
+                className={"hover:cursor-pointer"}
               >
                 <p className={"hidden md:block"}>App sign out</p>
               </ListItem>

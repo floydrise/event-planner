@@ -5,6 +5,7 @@ import { authClient } from "@/lib/auth-client.ts";
 import { ThemeSwitcher } from "@/components/mode-toggle.tsx";
 import { useQuery } from "@tanstack/react-query";
 import { getSessionQueryOptions } from "@/lib/api.ts";
+import {CalendarCheck} from "lucide-react";
 
 const NavBar = () => {
   const { data } = useQuery(getSessionQueryOptions);
@@ -14,10 +15,10 @@ const NavBar = () => {
         to={"/"}
         className={"md:ml-2 flex justify-center items-center gap-2"}
       >
-        <img src={"/logo.png"} alt={"App logo"} className={"w-14"} />
+        <CalendarCheck className={"size-12"}/>
       </Link>
       <div className={"flex justify-center items-center gap-2"}>
-        <div className={"space-x-2 md:space-x-4 border p-2 rounded-lg"}>
+        <div className={"space-x-2 md:space-x-4 border bg-slate-100 dark:bg-slate-900 p-2 rounded-lg"}>
           <Link to="/" className="[&.active]:font-bold">
             Home
           </Link>
