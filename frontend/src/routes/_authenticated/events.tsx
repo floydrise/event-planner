@@ -17,7 +17,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { createFileRoute } from "@tanstack/react-router";
-import {QueryClient, useMutation, useQuery} from "@tanstack/react-query";
+import { QueryClient, useMutation, useQuery } from "@tanstack/react-query";
 import { deleteEvent, getEventsQueryOptions } from "@/lib/api.ts";
 import { Button } from "@/components/ui/button.tsx";
 import { TrashIcon } from "lucide-react";
@@ -81,8 +81,8 @@ function Events() {
                         </DialogTrigger>
                         <DialogContent>
                           <DialogHeader>
-                            <DialogTitle>Description</DialogTitle>
-                            <DialogDescription>
+                            <DialogTitle className={"md:text-xl"}>Description</DialogTitle>
+                            <DialogDescription className={"md:text-lg"}>
                               {event.description}
                             </DialogDescription>
                           </DialogHeader>
@@ -97,6 +97,7 @@ function Events() {
                   </TableCell>
                   <TableCell>
                     <Button
+                        className={"hover:cursor-pointer"}
                       size={"icon"}
                       disabled={mutation.isPending}
                       onClick={() => {
