@@ -35,7 +35,7 @@ function RouteComponent() {
     defaultValues: {
       title: "",
       description: "",
-      date: new Date().toISOString(),
+      date: new Date().toLocaleDateString(),
     },
     onSubmit: async ({ value }) => {
       const res = await api.events.$post({
@@ -91,7 +91,6 @@ function RouteComponent() {
       <form.Field
         name="description"
         children={(field) => {
-          // Avoid hasty abstractions. Render props are great!
           return (
             <>
               <Label htmlFor={field.name} className={" text-lg"}>
@@ -118,15 +117,25 @@ function RouteComponent() {
             <>
               <div className={"flex m-auto"}>
                 <Calendar
-                  id={field.name}
                   mode="single"
                   selected={new Date(field.state.value)}
                   onSelect={(date) =>
                     field.handleChange(
-                      date ? date.toISOString() : new Date().toISOString,
+                      (date ?? new Date()).toLocaleDateString(),
                     )
                   }
                   className="rounded-md border shadow"
+                  footer={
+                    field.state.value ? (
+                      <p
+                        className={
+                          "font-light italic text-gray-400 dark:text-slate-600"
+                        }
+                      >{`Selected: ${new Date(field.state.value).toLocaleDateString()}`}</p>
+                    ) : (
+                      "Pick a day."
+                    )
+                  }
                 />
               </div>
               <FieldInfo field={field} />

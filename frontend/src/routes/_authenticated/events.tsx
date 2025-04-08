@@ -44,16 +44,15 @@ function Events() {
             <TableCaption>A list of your planned events.</TableCaption>
             <TableHeader>
               <TableRow>
-                <TableHead className={"font-bold"}>ID</TableHead>
                 <TableHead className={"font-bold"}>Title</TableHead>
                 <TableHead className={"font-bold"}>Description</TableHead>
+                <TableHead className={"font-bold"}>Date</TableHead>
                 <TableHead className={"font-bold"}>Delete</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
               {data?.events.map((event) => (
                 <TableRow key={event.eventId}>
-                  <TableCell className="font-medium">{event.eventId}</TableCell>
                   <TableCell>{event.title}</TableCell>
                   <TableCell className={"scroll-auto"}>
                     {event.description === "" || event.description === null ? (
@@ -67,7 +66,7 @@ function Events() {
                     ) : event.description.length > 20 ? (
                       <Dialog>
                         <DialogTrigger className={"hover:cursor-pointer"}>
-                          {event.description.slice(0, 18) + "..."}
+                          {event.description.slice(0, 12) + "..."}
                         </DialogTrigger>
                         <DialogContent>
                           <DialogHeader>
@@ -82,6 +81,7 @@ function Events() {
                       event.description
                     )}
                   </TableCell>
+                  <TableCell>{event.date.split("-").reverse().join("/")}</TableCell>
                   <TableCell>
                     <Button size={"icon"}>
                       <TrashIcon />
