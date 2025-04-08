@@ -17,8 +17,8 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { createFileRoute } from "@tanstack/react-router";
-import { useQuery } from "@tanstack/react-query";
-import { getEventsQueryOptions } from "@/lib/api.ts";
+import {QueryClient, useMutation, useQuery} from "@tanstack/react-query";
+import { deleteEvent, getEventsQueryOptions } from "@/lib/api.ts";
 import { Button } from "@/components/ui/button.tsx";
 import { TrashIcon } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton.tsx";
@@ -29,7 +29,18 @@ export const Route = createFileRoute("/_authenticated/events")({
 });
 
 function Events() {
+  const queryClient = new QueryClient();
   const { isLoading, error, data } = useQuery(getEventsQueryOptions);
+  const mutation = useMutation({
+    mutationFn: deleteEvent,
+    onSuccess: () => {
+      queryClient.invalidateQueries(getEventsQueryOptions);
+      toast.success("Successfully deleted event!");
+    },
+    onError: (error) => {
+      toast.error(`An error occurred: ${error}`);
+    },
+  });
   return (
     <>
       <div className={"w-auto md:w-[1000px] space-y-2 m-auto mt-10"}>
@@ -81,9 +92,17 @@ function Events() {
                       event.description
                     )}
                   </TableCell>
-                  <TableCell>{event.date.split("-").reverse().join("/")}</TableCell>
                   <TableCell>
-                    <Button size={"icon"}>
+                    {event.date.split("-").reverse().join("/")}
+                  </TableCell>
+                  <TableCell>
+                    <Button
+                      size={"icon"}
+                      disabled={mutation.isPending}
+                      onClick={() => {
+                        mutation.mutate(event.eventId);
+                      }}
+                    >
                       <TrashIcon />
                     </Button>
                   </TableCell>

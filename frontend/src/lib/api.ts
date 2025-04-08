@@ -35,7 +35,6 @@ export const logOut = () => {
 };
 
 export const getEvents = async () => {
-  await new Promise((r) => setTimeout(r, 3000));
   const res = await api.events.$get();
   if (!res.ok) throw new Error("Error while fetching events");
   return await res.json();
@@ -45,3 +44,13 @@ export const getEventsQueryOptions = queryOptions({
   queryKey: ["get-events"],
   queryFn: getEvents,
 });
+
+export const deleteEvent = async (eventId: number) => {
+  const res = await api.events[":id{[0-9]+}"].$delete({
+    param: {
+      id: String(eventId),
+    },
+  });
+  if (!res.ok) throw new Error("Error during deleting occurred, try again!");
+  return await res.json();
+};
