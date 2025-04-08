@@ -2,7 +2,7 @@ import { Hono } from "hono";
 import { zValidator } from "@hono/zod-validator";
 import { eventsPostSchema, eventsTable } from "../db/schema/events";
 import { db } from "../db";
-import { and, eq } from "drizzle-orm";
+import { and, asc, desc, eq } from "drizzle-orm";
 import { requireAuth } from "../middleware";
 
 const eventsRoute = new Hono()
@@ -11,7 +11,8 @@ const eventsRoute = new Hono()
     const events = await db
       .select()
       .from(eventsTable)
-      .where(eq(eventsTable.userId, user.id));
+      .where(eq(eventsTable.userId, user.id))
+      .orderBy(desc(eventsTable.createdAt));
     return c.json({ events }, 200);
   })
   .get("/:id{[0-9]+}", requireAuth, async (c) => {

@@ -1,4 +1,13 @@
 import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+
+import {
   Table,
   TableBody,
   TableCaption,
@@ -23,7 +32,7 @@ function Events() {
   const { isLoading, error, data } = useQuery(getEventsQueryOptions);
   return (
     <>
-      <div className={"w-fit md:w-[1000px] space-y-2 m-auto mt-10"}>
+      <div className={"w-auto md:w-[1000px] space-y-2 m-auto mt-10"}>
         {data?.events.length === 0 ? (
           <p>No events yet</p>
         ) : isLoading ? (
@@ -46,15 +55,29 @@ function Events() {
                 <TableRow key={event.eventId}>
                   <TableCell className="font-medium">{event.eventId}</TableCell>
                   <TableCell>{event.title}</TableCell>
-                  <TableCell>
-                    {event.description === "" ? (
+                  <TableCell className={"scroll-auto"}>
+                    {event.description === "" || event.description === null ? (
                       <p
                         className={
                           "font-light text-gray-400 dark:text-gray-600"
                         }
                       >
-                        No description provided
+                        No description
                       </p>
+                    ) : event.description.length > 20 ? (
+                      <Dialog>
+                        <DialogTrigger className={"hover:cursor-pointer"}>
+                          {event.description.slice(0, 18) + "..."}
+                        </DialogTrigger>
+                        <DialogContent>
+                          <DialogHeader>
+                            <DialogTitle>Description</DialogTitle>
+                            <DialogDescription>
+                              {event.description}
+                            </DialogDescription>
+                          </DialogHeader>
+                        </DialogContent>
+                      </Dialog>
                     ) : (
                       event.description
                     )}

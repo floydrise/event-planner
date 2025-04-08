@@ -8,6 +8,7 @@ import { eventsPostSchema } from "../../../../server/db/schema/events.ts";
 import { api, getSessionQueryOptions } from "@/lib/api.ts";
 import { toast } from "sonner";
 import { useQuery } from "@tanstack/react-query";
+import { Textarea } from "@/components/ui/textarea.tsx";
 
 export const Route = createFileRoute("/_authenticated/create")({
   component: RouteComponent,
@@ -17,7 +18,9 @@ function FieldInfo({ field }: { field: AnyFieldApi }) {
   return (
     <>
       {field.state.meta.isTouched && field.state.meta.errors.length ? (
-        <em>{field.state.meta.errors.map((err) => err.message).join(",")}</em>
+        <em className={"text-red-500"}>
+          • {field.state.meta.errors.map((err) => err.message).join(",")}
+        </em>
       ) : null}
       {field.state.meta.isValidating ? "Validating..." : null}
     </>
@@ -94,8 +97,7 @@ function RouteComponent() {
               <Label htmlFor={field.name} className={" text-lg"}>
                 Description
               </Label>
-              <Input
-                type="text"
+              <Textarea
                 id={field.name}
                 name={field.name}
                 value={field.state.value}
