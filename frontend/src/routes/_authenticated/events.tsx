@@ -16,11 +16,11 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { QueryClient, useMutation, useQuery } from "@tanstack/react-query";
 import { deleteEvent, getEventsQueryOptions } from "@/lib/api.ts";
 import { Button } from "@/components/ui/button.tsx";
-import { TrashIcon } from "lucide-react";
+import { TrashIcon, TriangleAlert } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton.tsx";
 import { toast } from "sonner";
 
@@ -45,7 +45,16 @@ function Events() {
     <>
       <div className={"w-auto md:w-[1000px] space-y-2 m-auto mt-10"}>
         {data?.events.length === 0 ? (
-          <p>No events yet</p>
+          <div className={"flex justify-center items-center gap-4"}>
+            <TriangleAlert className={"size-12"} />
+            <p className={"font-base"}>
+              No events yet, why don't you{" "}
+              <Link to={"/create"} className={"underline"}>
+                add
+              </Link>{" "}
+              one
+            </p>
+          </div>
         ) : isLoading ? (
           new Array(4)
             .fill(null)
@@ -81,7 +90,9 @@ function Events() {
                         </DialogTrigger>
                         <DialogContent>
                           <DialogHeader>
-                            <DialogTitle className={"md:text-xl"}>Description</DialogTitle>
+                            <DialogTitle className={"md:text-xl"}>
+                              Description
+                            </DialogTitle>
                             <DialogDescription className={"md:text-lg"}>
                               {event.description}
                             </DialogDescription>
@@ -97,7 +108,7 @@ function Events() {
                   </TableCell>
                   <TableCell>
                     <Button
-                        className={"hover:cursor-pointer"}
+                      className={"hover:cursor-pointer"}
                       size={"icon"}
                       disabled={mutation.isPending}
                       onClick={() => {
