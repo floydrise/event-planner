@@ -52,9 +52,9 @@ function RouteComponent() {
         },
       });
       if (!res.ok) {
-        toast.error("An error occurred, try again");
+        toast.error("An error occurred, try again!");
       }
-      toast.success("Successfully added new event");
+      toast.success("Successfully created a new event!");
       navigate({ to: "/events" });
     },
   });
