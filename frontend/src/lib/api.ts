@@ -35,6 +35,7 @@ export const logOut = () => {
 };
 
 export const getEvents = async () => {
+  await new Promise((r) => setTimeout(r, 3000));
   const res = await api.events.$get();
   if (!res.ok) throw new Error("Error while fetching events");
   return await res.json();
