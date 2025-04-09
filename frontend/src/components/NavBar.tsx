@@ -10,7 +10,7 @@ import { CalendarCheck } from "lucide-react";
 const NavBar = () => {
   const { data } = useQuery(getSessionQueryOptions);
   return (
-    <nav className="p-4 flex justify-between items-center gap-2">
+    <nav className="p-4 flex justify-between sticky top-0 backdrop-blur-sm z-10  items-center gap-2">
       <Link
         to={"/"}
         className={"md:ml-2 flex justify-center items-center gap-2"}
@@ -20,7 +20,7 @@ const NavBar = () => {
       <div className={"flex justify-center items-center gap-2"}>
         <div
           className={
-            "space-x-2 md:space-x-4 border bg-slate-100 dark:bg-slate-900 p-2 rounded-lg"
+            "space-x-2 md:space-x-4 border bg-slate-50 dark:bg-slate-900 p-2 rounded-lg"
           }
         >
           <Link to="/" className="[&.active]:font-bold">

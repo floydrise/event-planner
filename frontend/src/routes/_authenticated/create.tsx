@@ -124,23 +124,22 @@ function RouteComponent() {
                   <Smile />
                 </Button>
               </div>
-                <EmojiPicker
-
-                    theme={
-                    theme === "dark"
-                      ? Theme.DARK
-                      : theme === "light"
-                        ? Theme.LIGHT
-                        : Theme.AUTO
-                  }
-                  defaultSkinTone={SkinTones.NEUTRAL}
-                  skinTonesDisabled={true}
-                  open={isOpen}
-                  onEmojiClick={(clicked) => {
-                    const current = form.state.values.description ?? "";
-                    form.setFieldValue("description", current + clicked.emoji);
-                  }}
-                />
+              <EmojiPicker
+                theme={
+                  theme === "dark"
+                    ? Theme.DARK
+                    : theme === "light"
+                      ? Theme.LIGHT
+                      : Theme.AUTO
+                }
+                defaultSkinTone={SkinTones.NEUTRAL}
+                skinTonesDisabled={true}
+                open={isOpen}
+                onEmojiClick={(clicked) => {
+                  const current = form.state.values.description ?? "";
+                  form.setFieldValue("description", current + clicked.emoji);
+                }}
+              />
               <FieldInfo field={field} />
             </>
           );
