@@ -1,4 +1,4 @@
-import {createFileRoute, Link} from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { BadgeCheck } from "lucide-react";
 
 export const Route = createFileRoute("/")({
@@ -136,46 +136,49 @@ function Index() {
 
         <div className={"flex flex-col md:flex-row items-center gap-2"}>
           <img
-              src={"/rotating-arrows.png"}
-              alt={"Picture of a shuttle"}
-              className={"w-12 rounded-lg"}
+            src={"/rotating-arrows.png"}
+            alt={"Picture of a shuttle"}
+            className={"w-12 rounded-lg"}
           />
           <div>
-            <h3 className={"text-2xl font-semibold"}>
-              Seamless Navigation
-            </h3>
+            <h3 className={"text-2xl font-semibold"}>Seamless Navigation</h3>
             <p className={"font-thin w-56"}>
-              No reloads. No waiting. Our single-page experience makes navigating between views instant and smooth — because planning should feel effortless.
+              No reloads. No waiting. Our single-page experience makes
+              navigating between views instant and smooth — because planning
+              should feel effortless.
             </p>
           </div>
         </div>
         <div className={"flex flex-col md:flex-row items-center gap-2"}>
           <img
-              src={"/target.png"}
-              alt={"Picture of a shuttle"}
-              className={"w-12 rounded-lg"}
+            src={"/target.png"}
+            alt={"Picture of a shuttle"}
+            className={"w-12 rounded-lg"}
           />
           <div>
             <h3 className={"text-2xl font-semibold"}>
               Focused. Flexible. Future-ready.
             </h3>
             <p className={"font-thin w-56"}>
-              Whether you’re managing a packed calendar or just a few key dates, our app is built to grow with you. Designed for clarity, speed, and ease of use.
+              Whether you’re managing a packed calendar or just a few key dates,
+              our app is built to grow with you. Designed for clarity, speed,
+              and ease of use.
             </p>
           </div>
         </div>
         <div className={"flex flex-col md:flex-row items-center gap-2"}>
           <img
-              src={"/pointing-down.png"}
-              alt={"Picture of a shuttle"}
-              className={"w-12 rounded-lg"}
+            src={"/pointing-down.png"}
+            alt={"Picture of a shuttle"}
+            className={"w-12 rounded-lg"}
           />
           <div>
-            <h3 className={"text-2xl font-semibold"}>
-              Ready to get started?
-            </h3>
+            <h3 className={"text-2xl font-semibold"}>Ready to get started?</h3>
             <p className={"font-thin w-56"}>
-              <Link to={"/create"} className={"underline"}>Create</Link> your first event and see how simple planning can be.
+              <Link to={"/create"} className={"underline"}>
+                Create
+              </Link>{" "}
+              your first event and see how simple planning can be.
             </p>
           </div>
         </div>

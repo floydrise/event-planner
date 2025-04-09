@@ -43,6 +43,7 @@ export const getEvents = async () => {
 export const getEventsQueryOptions = queryOptions({
   queryKey: ["get-events"],
   queryFn: getEvents,
+  staleTime: 1000 * 60 * 5,
 });
 
 export const deleteEvent = async (eventId: number) => {
