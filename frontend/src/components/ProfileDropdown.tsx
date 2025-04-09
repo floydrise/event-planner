@@ -27,7 +27,7 @@ export function ProfileDropdown() {
     <NavigationMenu>
       <NavigationMenuList>
         <NavigationMenuItem>
-          <NavigationMenuTrigger>
+          <NavigationMenuTrigger className={"bg-transparent active:bg-transparent"}>
             <Avatar>
               <AvatarImage src={user.image ?? ""} alt="profile pic" />
               <AvatarFallback>

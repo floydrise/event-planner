@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import {createFileRoute, Link} from "@tanstack/react-router";
 import { BadgeCheck } from "lucide-react";
 
 export const Route = createFileRoute("/")({
@@ -11,7 +11,7 @@ function Index() {
       <header>
         <h1
           className={
-            "md:text-5xl text-3xl font-bold text-center mt-10 mb-10 pb-6 text-transparent bg-clip-text bg-gradient-to-r from-orange-500 to-violet-500"
+            "md:text-5xl text-3xl font-bold text-center mt-10  pb-6 text-transparent bg-clip-text bg-gradient-to-r from-orange-500 to-violet-500"
           }
         >
           Welcome to Your Personal Event Planner 🎉
@@ -19,7 +19,7 @@ function Index() {
       </header>
       <section
         className={
-          "flex flex-col md:flex-row justify-center items-center gap-6 md:gap-0 md:justify-evenly pb-16 border-b-4 border-t-4 pt-16 mb-10 border-dotted"
+          "flex flex-col md:flex-row justify-center items-center gap-6 md:gap-0 md:justify-evenly pb-16 border-b-4  pt-16 mb-10 border-dotted"
         }
       >
         <img
@@ -60,12 +60,126 @@ function Index() {
           </div>
         </div>
       </section>
-        <section className={
-            "flex flex-col md:flex-row justify-center items-center gap-6 md:gap-0 md:justify-evenly pb-16 mb-10 border-dotted bo"
-        }>
-            <h2 className={"md:w-140 md:text-3xl text-2xl font-bold text-center border-dotted text-transparent bg-clip-text bg-gradient-to-r from-sky-500 to-lime-200"}>Whether it’s a birthday bash, business meeting, or weekend getaway, our Event Planner makes organizing your life simple and seamless.</h2>
-            <img src={"/business_meeting.png"} alt={"Picture of a business meeting"} className={"w-96 rounded-lg"}/>
-        </section>
+      <section
+        className={
+          "flex flex-col md:flex-row justify-center items-center gap-6 md:gap-0 md:justify-evenly pb-16 border-b-4 mb-10 border-dotted"
+        }
+      >
+        <h2
+          className={
+            "md:w-140 md:text-3xl text-2xl font-bold text-center border-dotted text-transparent bg-clip-text bg-gradient-to-r from-sky-500 to-lime-200"
+          }
+        >
+          Whether it’s a birthday bash, business meeting, or weekend getaway,
+          our Event Planner makes organizing your life simple and seamless.
+        </h2>
+        <img
+          src={"/business_meeting.png"}
+          alt={"Picture of a business meeting"}
+          className={"w-96 rounded-lg"}
+        />
+      </section>
+      {/*flex flex-col md:flex-row flex-wrap justify-center items-center*/}
+      <section
+        className={
+          "grid md:grid-cols-3 grid-cols-1 md:grid-rows-2 px-20 mt-20 gap-8 md:gap-0 md:justify-evenly pb-16 mb-10 border-dotted"
+        }
+      >
+        <div className={"flex flex-col md:flex-row items-center gap-2"}>
+          <img
+            src={"/schedule_calendar.png"}
+            alt={"Image of a calendar"}
+            className={"w-12 rounded-lg"}
+          />
+          <div>
+            <h3 className={"text-2xl font-semibold"}>
+              View all your events in one place
+            </h3>
+            <p className={"font-thin w-56"}>
+              Easily keep track of everything you’ve got going on with a clean,
+              user-friendly event table.
+            </p>
+          </div>
+        </div>
+        <div className={"flex flex-col md:flex-row items-center gap-2"}>
+          <img
+            src={"/pencil.png"}
+            alt={"Picture of a pencil"}
+            className={"w-12 rounded-lg"}
+          />
+          <div>
+            <h3 className={"text-2xl font-semibold"}>
+              Create events in seconds
+            </h3>
+            <p className={"font-thin w-56"}>
+              Just fill out a quick form, hit submit, and voilà — your event is
+              saved and ready to go.
+            </p>
+          </div>
+        </div>
+        <div className={"flex flex-col md:flex-row items-center gap-2"}>
+          <img
+            src={"/shuttle.png"}
+            alt={"Picture of a shuttle"}
+            className={"w-12 rounded-lg"}
+          />
+          <div>
+            <h3 className={"text-2xl font-semibold"}>
+              Stay organized effortlessly
+            </h3>
+            <p className={"font-thin w-56"}>
+              Designed for ease of use, so you can spend less time planning and
+              more time doing.
+            </p>
+          </div>
+        </div>
+
+        <div className={"flex flex-col md:flex-row items-center gap-2"}>
+          <img
+              src={"/rotating-arrows.png"}
+              alt={"Picture of a shuttle"}
+              className={"w-12 rounded-lg"}
+          />
+          <div>
+            <h3 className={"text-2xl font-semibold"}>
+              Seamless Navigation
+            </h3>
+            <p className={"font-thin w-56"}>
+              No reloads. No waiting. Our single-page experience makes navigating between views instant and smooth — because planning should feel effortless.
+            </p>
+          </div>
+        </div>
+        <div className={"flex flex-col md:flex-row items-center gap-2"}>
+          <img
+              src={"/target.png"}
+              alt={"Picture of a shuttle"}
+              className={"w-12 rounded-lg"}
+          />
+          <div>
+            <h3 className={"text-2xl font-semibold"}>
+              Focused. Flexible. Future-ready.
+            </h3>
+            <p className={"font-thin w-56"}>
+              Whether you’re managing a packed calendar or just a few key dates, our app is built to grow with you. Designed for clarity, speed, and ease of use.
+            </p>
+          </div>
+        </div>
+        <div className={"flex flex-col md:flex-row items-center gap-2"}>
+          <img
+              src={"/pointing-down.png"}
+              alt={"Picture of a shuttle"}
+              className={"w-12 rounded-lg"}
+          />
+          <div>
+            <h3 className={"text-2xl font-semibold"}>
+              Ready to get started?
+            </h3>
+            <p className={"font-thin w-56"}>
+              <Link to={"/create"} className={"underline"}>Create</Link> your first event and see how simple planning can be.
+            </p>
+          </div>
+        </div>
+      </section>
     </main>
   );
 }
