@@ -2,6 +2,7 @@ import {
   Dialog,
   DialogContent,
   DialogDescription,
+  DialogFooter,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
@@ -20,7 +21,12 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { deleteEvent, getEventsQueryOptions } from "@/lib/api.ts";
 import { Button } from "@/components/ui/button.tsx";
-import { FileQuestion, TrashIcon, TriangleAlert } from "lucide-react";
+import {
+  BadgeInfo,
+  FileQuestion,
+  TrashIcon,
+  TriangleAlert,
+} from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton.tsx";
 import { toast } from "sonner";
 
@@ -69,13 +75,18 @@ function Events() {
                 <TableHead className={"font-bold"}>Title</TableHead>
                 <TableHead className={"font-bold"}>Description</TableHead>
                 <TableHead className={"font-bold"}>Date</TableHead>
+                <TableHead className={"font-bold"}>Info</TableHead>
                 <TableHead className={"font-bold"}>Delete</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
               {data?.events.map((event) => (
                 <TableRow key={event.eventId}>
-                  <TableCell>{event.title}</TableCell>
+                  <TableCell>
+                    {event.title.length > 20
+                      ? event.title.slice(0, 12) + "..."
+                      : event.title}
+                  </TableCell>
                   <TableCell className={"scroll-auto"}>
                     {event.description === "" || event.description === null ? (
                       <p
@@ -86,27 +97,42 @@ function Events() {
                         No description
                       </p>
                     ) : event.description.length > 20 ? (
-                      <Dialog>
-                        <DialogTrigger className={"hover:cursor-pointer"}>
-                          {event.description.slice(0, 12) + "..."}
-                        </DialogTrigger>
-                        <DialogContent>
-                          <DialogHeader>
-                            <DialogTitle className={"md:text-xl"}>
-                              Description
-                            </DialogTitle>
-                            <DialogDescription className={"md:text-lg"}>
-                              {event.description}
-                            </DialogDescription>
-                          </DialogHeader>
-                        </DialogContent>
-                      </Dialog>
+                      event.description.slice(0, 12) + "..."
                     ) : (
                       event.description
                     )}
                   </TableCell>
                   <TableCell>
                     {event.date.split("-").reverse().join("/")}
+                  </TableCell>
+                  <TableCell>
+                    <Dialog>
+                      <DialogTrigger className={"hover:cursor-pointer"}>
+                        <Button
+                          type={"button"}
+                          size={"icon"}
+                          className={"hover:cursor-pointer"}
+                        >
+                          <BadgeInfo />
+                        </Button>
+                      </DialogTrigger>
+                      <DialogContent>
+                        <DialogHeader>
+                          <DialogTitle className={"md:text-xl"}>
+                            {event.title}
+                          </DialogTitle>
+                          <DialogDescription className={"md:text-lg"}>
+                            {event.description === "" ||
+                            event.description === null
+                              ? "No description"
+                              : event.description}
+                          </DialogDescription>
+                        </DialogHeader>
+                        <DialogFooter>
+                          <p className={"font-light"}>Date: {event.date}</p>
+                        </DialogFooter>
+                      </DialogContent>
+                    </Dialog>
                   </TableCell>
                   <TableCell>
                     <Button
@@ -130,3 +156,20 @@ function Events() {
     </>
   );
 }
+
+/*
+* <Dialog>
+                        <DialogTrigger className={"hover:cursor-pointer"}>
+                          {event.description.slice(0, 12) + "..."}
+                        </DialogTrigger>
+                        <DialogContent>
+                          <DialogHeader>
+                            <DialogTitle className={"md:text-xl"}>
+                              Description
+                            </DialogTitle>
+                            <DialogDescription className={"md:text-lg"}>
+                              {event.description}
+                            </DialogDescription>
+                          </DialogHeader>
+                        </DialogContent>
+                      </Dialog>*/
