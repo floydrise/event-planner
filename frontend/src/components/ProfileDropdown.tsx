@@ -27,7 +27,7 @@ export function ProfileDropdown() {
     <NavigationMenu>
       <NavigationMenuList>
         <NavigationMenuItem>
-          <NavigationMenuTrigger className={"bg-transparent active:bg-transparent"}>
+          <NavigationMenuTrigger className={"bg-transparent"}>
             <Avatar>
               <AvatarImage src={user.image ?? ""} alt="profile pic" />
               <AvatarFallback>
@@ -50,7 +50,7 @@ export function ProfileDropdown() {
                 }}
                 className={"hover:cursor-pointer"}
               >
-                <p className={"hidden md:block"}>App sign out</p>
+                App sign out
               </ListItem>
             </ul>
           </NavigationMenuContent>
@@ -63,11 +63,12 @@ export function ProfileDropdown() {
 const ListItem = React.forwardRef<
   React.ComponentRef<"a">,
   React.ComponentPropsWithoutRef<"a">
->(({ className, title, children, ...props }) => {
+>(({ className, title, children, ...props }, ref) => {
   return (
     <li>
       <NavigationMenuLink asChild>
         <span
+          ref={ref}
           className={cn(
             "block select-none space-y-1 rounded-md p-2 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground",
             className,

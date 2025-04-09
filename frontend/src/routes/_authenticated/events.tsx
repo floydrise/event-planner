@@ -107,14 +107,8 @@ function Events() {
                   </TableCell>
                   <TableCell>
                     <Dialog>
-                      <DialogTrigger className={"hover:cursor-pointer"}>
-                        <Button
-                          type={"button"}
-                          size={"icon"}
-                          className={"hover:cursor-pointer"}
-                        >
-                          <BadgeInfo />
-                        </Button>
+                      <DialogTrigger type={"button"} className={"hover:cursor-pointer"}>
+                        <BadgeInfo />
                       </DialogTrigger>
                       <DialogContent>
                         <DialogHeader>
@@ -156,20 +150,3 @@ function Events() {
     </>
   );
 }
-
-/*
-* <Dialog>
-                        <DialogTrigger className={"hover:cursor-pointer"}>
-                          {event.description.slice(0, 12) + "..."}
-                        </DialogTrigger>
-                        <DialogContent>
-                          <DialogHeader>
-                            <DialogTitle className={"md:text-xl"}>
-                              Description
-                            </DialogTitle>
-                            <DialogDescription className={"md:text-lg"}>
-                              {event.description}
-                            </DialogDescription>
-                          </DialogHeader>
-                        </DialogContent>
-                      </Dialog>*/
