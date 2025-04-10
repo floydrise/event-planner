@@ -19,8 +19,8 @@ const router = createRouter({
   defaultNotFoundComponent: () => {
     return (
       <div className="flex flex-col justify-center items-center min-h-screen w-full">
-        <h1 className="md:text-5xl text-3xl font-bold w-fit text-transparent pb-2 bg-clip-text bg-gradient-to-r from-lime-500 to-blue-500">
-          Page not found!
+        <h1 className="md:text-5xl text-2xl font-bold w-fit text-transparent pb-2 bg-clip-text bg-gradient-to-r from-lime-500 to-blue-500 animate-bounce">
+          Page is out there, but not here!
         </h1>
         <img
           src="/404-error.png"

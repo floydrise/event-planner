@@ -9,7 +9,20 @@ export const Route = createFileRoute("/_authenticated")({
   },
   component: () => {
     const { user } = Route.useRouteContext();
-    if (!user) return <div>You must login</div>;
+    if (!user)
+      return (
+        <section className="flex flex-col justify-center items-center min-h-screen w-full">
+          <h1 className="md:text-5xl text-2xl font-bold w-fit text-center text-transparent pb-2 bg-clip-text bg-gradient-to-r from-orange-500 to-blue-500 animate-bounce">
+            Hey there buddy, please login 🙏
+          </h1>
+          <img
+            src={"/unauthorized.png"}
+            alt={"Image to notify a user is not authorized to see the page"}
+            className="mt-4"
+            width={300}
+          />
+        </section>
+      );
     return <Outlet />;
   },
 });

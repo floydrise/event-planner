@@ -3,15 +3,16 @@ import eventsRoute from "./routes/events";
 import { logger } from "hono/logger";
 import { auth } from "../auth";
 import { cors } from "hono/cors";
+import { serveStatic } from "hono/bun";
 
-const app = new Hono()
+const app = new Hono();
+const api = app
   .basePath("/api")
-  .use(logger())
   .on(["POST", "GET"], "/auth/**", (c) => auth.handler(c.req.raw))
   .use(
-    "/api/auth/*",
+    "/auth/*",
     cors({
-      origin: ["http://localhost:3000", "http://localhost:5173"],
+      origin: [Bun.env.BETTER_AUTH_URL!],
       allowHeaders: ["Content-Type", "Authorization"],
       allowMethods: ["POST", "GET", "OPTIONS"],
       exposeHeaders: ["Content-Length"],
@@ -19,8 +20,11 @@ const app = new Hono()
       credentials: true,
     }),
   )
-  .route("/events", eventsRoute)
-  .get("/", (c) => c.json({ msg: "Howdy from api 🤠" }));
+  .route("/events", eventsRoute);
+
+app.use("*", logger());
+app.use("/*", serveStatic({ root: "frontend/dist" }));
+app.get("*", serveStatic({ path: "frontend/dist/index.html" }));
 
 export default app;
-export type AppType = typeof app;
+export type AppType = typeof api;
