@@ -1,5 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { BadgeCheck, PartyPopper } from "lucide-react";
+import { BadgeCheck } from "lucide-react";
+import { motion } from "motion/react";
 
 export const Route = createFileRoute("/")({
   component: Index,
@@ -10,29 +11,51 @@ function Index() {
     <main className="p-4">
       <header
         className={
-          "flex flex-col md:flex-row animate-bounce items-center mt-10 justify-center gap-2"
+          "flex flex-col md:flex-row items-center mt-10 justify-center gap-2"
         }
       >
-        <h1
+        <motion.h1
+          initial={{ opacity: 0, scale: 0 }}
+          whileInView={{ opacity: 1, scale: 1 }}
+          viewport={{ once: true }}
+          transition={{
+            duration: 2,
+            scale: { type: "tween", visualDuration: 2 },
+          }}
           className={
             "md:text-5xl text-3xl font-bold text-center text-transparent bg-clip-text bg-gradient-to-r from-orange-500 to-violet-500"
           }
         >
           Welcome to Your Personal Event Planner
-        </h1>
-        <PartyPopper className={"size-12 text-violet-500"} />
+        </motion.h1>
       </header>
       <section
         className={
           "flex flex-col md:flex-row justify-center items-center gap-6 md:gap-0 md:justify-evenly pb-16 border-b-4  pt-16 mb-10 border-dotted"
         }
       >
-        <img
+        <motion.img
+          initial={{ opacity: 0, scale: 0 }}
+          whileInView={{ opacity: 1, scale: 1 }}
+          viewport={{ once: true }}
+          transition={{
+            duration: 2,
+            scale: { type: "tween", visualDuration: 2 },
+          }}
           src={"/event_planning.png"}
           alt={"Event planning image"}
           className={"w-96 rounded-lg"}
         />
-        <div className={"flex flex-col gap-6 justify-center"}>
+        <motion.div
+          initial={{ opacity: 0, scale: 0 }}
+          whileInView={{ opacity: 1, scale: 1 }}
+          viewport={{ once: true }}
+          transition={{
+            duration: 2,
+            scale: { type: "tween", visualDuration: 2 },
+          }}
+          className={"flex flex-col gap-6 justify-center"}
+        >
           <div className={"flex items-center gap-2"}>
             <BadgeCheck className={"dark:text-lime-400 text-lime-700"} />
             <p
@@ -63,34 +86,56 @@ function Index() {
               Celebrate more.
             </p>
           </div>
-        </div>
+        </motion.div>
       </section>
       <section
         className={
           "flex flex-col md:flex-row justify-center items-center gap-6 md:gap-0 md:justify-evenly pb-16 border-b-4 mb-10 border-dotted"
         }
       >
-        <h2
+        <motion.h2
+          initial={{ opacity: 0, scale: 0 }}
+          whileInView={{ opacity: 1, scale: 1 }}
+          viewport={{ once: true}}
+          transition={{
+            duration: 2,
+            scale: { type: "tween", visualDuration: 2 },
+          }}
           className={
             "md:w-140 md:text-3xl text-2xl font-bold text-center border-dotted text-transparent bg-clip-text bg-gradient-to-r from-sky-500 to-lime-200"
           }
         >
           Whether it’s a birthday bash, business meeting, or weekend getaway,
           our Event Planner makes organizing your life simple and seamless.
-        </h2>
-        <img
+        </motion.h2>
+        <motion.img
+          initial={{ opacity: 0, scale: 0 }}
+          whileInView={{ opacity: 1, scale: 1 }}
+          viewport={{ once: true }}
+          transition={{
+            duration: 2,
+            scale: { type: "tween", visualDuration: 2 },
+          }}
           src={"/business_meeting.png"}
           alt={"Picture of a business meeting"}
           className={"w-96 rounded-lg"}
         />
       </section>
-      {/*flex flex-col md:flex-row flex-wrap justify-center items-center*/}
       <section
         className={
           "grid md:grid-cols-3 grid-cols-1 md:grid-rows-2 px-20 mt-20 gap-8 md:gap-0 md:justify-evenly pb-16 mb-10 border-dotted"
         }
       >
-        <div className={"flex flex-col md:flex-row items-center gap-2"}>
+        <motion.div
+          initial={{ opacity: 0, scale: 0 }}
+          whileInView={{ opacity: 1, scale: 1 }}
+          viewport={{ once: true }}
+          transition={{
+            duration: 2,
+            scale: { type: "tween", visualDuration: 2 },
+          }}
+          className={"flex flex-col md:flex-row items-center gap-2"}
+        >
           <img
             src={"/schedule_calendar.png"}
             alt={"Image of a calendar"}
@@ -105,8 +150,17 @@ function Index() {
               user-friendly event table.
             </p>
           </div>
-        </div>
-        <div className={"flex flex-col md:flex-row items-center gap-2"}>
+        </motion.div>
+        <motion.div
+          initial={{ opacity: 0, scale: 0 }}
+          whileInView={{ opacity: 1, scale: 1 }}
+          viewport={{ once: true }}
+          transition={{
+            duration: 2,
+            scale: { type: "tween", visualDuration: 2 },
+          }}
+          className={"flex flex-col md:flex-row items-center gap-2"}
+        >
           <img
             src={"/pencil.png"}
             alt={"Picture of a pencil"}
@@ -121,8 +175,17 @@ function Index() {
               saved and ready to go.
             </p>
           </div>
-        </div>
-        <div className={"flex flex-col md:flex-row items-center gap-2"}>
+        </motion.div>
+        <motion.div
+          initial={{ opacity: 0, scale: 0 }}
+          whileInView={{ opacity: 1, scale: 1 }}
+          viewport={{ once: true }}
+          transition={{
+            duration: 2,
+            scale: { type: "tween", visualDuration: 2 },
+          }}
+          className={"flex flex-col md:flex-row items-center gap-2"}
+        >
           <img
             src={"/shuttle.png"}
             alt={"Picture of a shuttle"}
@@ -137,9 +200,18 @@ function Index() {
               more time doing.
             </p>
           </div>
-        </div>
+        </motion.div>
 
-        <div className={"flex flex-col md:flex-row items-center gap-2"}>
+        <motion.div
+          initial={{ opacity: 0, scale: 0 }}
+          whileInView={{ opacity: 1, scale: 1 }}
+          viewport={{ once: true }}
+          transition={{
+            duration: 2,
+            scale: { type: "tween", visualDuration: 2 },
+          }}
+          className={"flex flex-col md:flex-row items-center gap-2"}
+        >
           <img
             src={"/rotating-arrows.png"}
             alt={"Picture of a shuttle"}
@@ -153,8 +225,17 @@ function Index() {
               should feel effortless.
             </p>
           </div>
-        </div>
-        <div className={"flex flex-col md:flex-row items-center gap-2"}>
+        </motion.div>
+        <motion.div
+          initial={{ opacity: 0, scale: 0 }}
+          whileInView={{ opacity: 1, scale: 1 }}
+          viewport={{ once: true }}
+          transition={{
+            duration: 2,
+            scale: { type: "tween", visualDuration: 2 },
+          }}
+          className={"flex flex-col md:flex-row items-center gap-2"}
+        >
           <img
             src={"/target.png"}
             alt={"Picture of a shuttle"}
@@ -170,8 +251,17 @@ function Index() {
               and ease of use.
             </p>
           </div>
-        </div>
-        <div className={"flex flex-col md:flex-row items-center gap-2"}>
+        </motion.div>
+        <motion.div
+          initial={{ opacity: 0, scale: 0 }}
+          whileInView={{ opacity: 1, scale: 1 }}
+          viewport={{ once: true }}
+          transition={{
+            duration: 2,
+            scale: { type: "tween", visualDuration: 2 },
+          }}
+          className={"flex flex-col md:flex-row items-center gap-2"}
+        >
           <img
             src={"/pointing-down.png"}
             alt={"Picture of a shuttle"}
@@ -186,7 +276,7 @@ function Index() {
               your first event and see how simple planning can be.
             </p>
           </div>
-        </div>
+        </motion.div>
       </section>
     </main>
   );
