@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { BadgeCheck } from "lucide-react";
+import { BadgeCheck, PartyPopper } from "lucide-react";
 
 export const Route = createFileRoute("/")({
   component: Index,
@@ -8,14 +8,19 @@ export const Route = createFileRoute("/")({
 function Index() {
   return (
     <main className="p-4">
-      <header>
+      <header
+        className={
+          "flex flex-col md:flex-row animate-bounce items-center mt-10 justify-center gap-2"
+        }
+      >
         <h1
           className={
-            "md:text-5xl text-3xl font-bold text-center mt-10  pb-6 text-transparent bg-clip-text bg-gradient-to-r from-orange-500 to-violet-500"
+            "md:text-5xl text-3xl font-bold text-center text-transparent bg-clip-text bg-gradient-to-r from-orange-500 to-violet-500"
           }
         >
-          Welcome to Your Personal Event Planner 🎉
+          Welcome to Your Personal Event Planner
         </h1>
+        <PartyPopper className={"size-12 text-violet-500"} />
       </header>
       <section
         className={
