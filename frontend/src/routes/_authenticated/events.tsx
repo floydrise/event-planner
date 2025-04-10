@@ -21,12 +21,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { deleteEvent, getEventsQueryOptions } from "@/lib/api.ts";
 import { Button } from "@/components/ui/button.tsx";
-import {
-  BadgeInfo,
-  FileQuestion,
-  TrashIcon,
-  TriangleAlert,
-} from "lucide-react";
+import { BadgeInfo, TrashIcon, TriangleAlert } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton.tsx";
 import { toast } from "sonner";
 
@@ -59,9 +54,8 @@ function Events() {
               <Link to={"/create"} className={"underline"}>
                 add
               </Link>{" "}
-              one
+              one?
             </p>
-            <FileQuestion />
           </div>
         ) : isLoading ? (
           new Array(4)
@@ -107,7 +101,10 @@ function Events() {
                   </TableCell>
                   <TableCell>
                     <Dialog>
-                      <DialogTrigger type={"button"} className={"hover:cursor-pointer"}>
+                      <DialogTrigger
+                        type={"button"}
+                        className={"hover:cursor-pointer"}
+                      >
                         <BadgeInfo />
                       </DialogTrigger>
                       <DialogContent>

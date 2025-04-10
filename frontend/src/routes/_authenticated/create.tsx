@@ -7,7 +7,7 @@ import { AnyFieldApi, useForm } from "@tanstack/react-form";
 import { eventsPostSchema } from "../../../../server/db/schema/events.ts";
 import { api, getSessionQueryOptions } from "@/lib/api.ts";
 import { toast } from "sonner";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { Textarea } from "@/components/ui/textarea.tsx";
 import EmojiPicker, { SkinTones, Theme } from "emoji-picker-react";
 import { useState } from "react";
@@ -34,7 +34,7 @@ function FieldInfo({ field }: { field: AnyFieldApi }) {
 function RouteComponent() {
   const { theme } = useTheme();
   const [isOpen, setIsOpen] = useState<boolean>(false);
-
+  const queryClient = useQueryClient();
   const { data } = useQuery(getSessionQueryOptions);
   const user = data!.user;
   const navigate = useNavigate();
@@ -54,6 +54,7 @@ function RouteComponent() {
       if (!res.ok) {
         toast.error("An error occurred, try again!");
       }
+      queryClient.invalidateQueries({ queryKey: ["get-events"] });
       toast.success("Successfully created a new event!");
       navigate({ to: "/events" });
     },
