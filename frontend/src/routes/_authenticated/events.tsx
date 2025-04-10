@@ -46,7 +46,11 @@ function Events() {
   return (
     <>
       <div className={"w-auto md:w-[1000px] space-y-2 m-auto mt-10"}>
-        {data?.events.length === 0 ? (
+        {isLoading ? (
+          new Array(4)
+            .fill(null)
+            .map((_, index) => <Skeleton key={index} className={"h-10"} />)
+        ) : data?.events.length === 0 ? (
           <div className={"flex justify-center items-center gap-2"}>
             <TriangleAlert className={"size-10"} />
             <p className={"font-base"}>
@@ -57,10 +61,6 @@ function Events() {
               one?
             </p>
           </div>
-        ) : isLoading ? (
-          new Array(4)
-            .fill(null)
-            .map((_, index) => <Skeleton key={index} className={"h-10"} />)
         ) : (
           <Table>
             <TableCaption>A list of your planned events.</TableCaption>
