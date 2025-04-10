@@ -68,6 +68,7 @@ function Events() {
               <TableRow>
                 <TableHead className={"font-bold"}>Title</TableHead>
                 <TableHead className={"font-bold"}>Description</TableHead>
+                <TableHead className={"font-bold"}>Time</TableHead>
                 <TableHead className={"font-bold"}>Date</TableHead>
                 <TableHead className={"font-bold"}>Info</TableHead>
                 <TableHead className={"font-bold"}>Delete</TableHead>
@@ -97,7 +98,10 @@ function Events() {
                     )}
                   </TableCell>
                   <TableCell>
-                    {event.date.split("-").reverse().join("/")}
+                    {event.time?.split(":")[0]}:{event.time?.split(":")[1]}
+                  </TableCell>
+                  <TableCell>
+                    {`${event.date.split("-").reverse().join("/")}`}
                   </TableCell>
                   <TableCell>
                     <Dialog>
@@ -120,7 +124,11 @@ function Events() {
                           </DialogDescription>
                         </DialogHeader>
                         <DialogFooter>
-                          <p className={"font-light"}>Date: {event.date}</p>
+                          <p className={"font-light italic"}>
+                            Scheduled for: {event.time?.split(":")[0]}:
+                            {event.time?.split(":")[1]}{" "}
+                            {event.date.split("-").reverse().join("/")}
+                          </p>
                         </DialogFooter>
                       </DialogContent>
                     </Dialog>

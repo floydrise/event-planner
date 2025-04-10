@@ -23,10 +23,10 @@ function Index() {
             scale: { type: "tween", visualDuration: 2 },
           }}
           className={
-            "md:text-5xl text-3xl font-bold text-center text-transparent bg-clip-text bg-gradient-to-r from-orange-500 to-violet-500"
+            "md:text-5xl text-3xl font-bold text-center pb-1 text-transparent bg-clip-text bg-gradient-to-r from-orange-500 to-violet-500"
           }
         >
-          Welcome to Your Personal Event Planner
+          Welcome to your personal scheduler
         </motion.h1>
       </header>
       <section

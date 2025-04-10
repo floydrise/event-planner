@@ -43,6 +43,7 @@ function RouteComponent() {
       title: "",
       description: "",
       date: new Date().toLocaleDateString(),
+      time: "09:00",
     },
     onSubmit: async ({ value }) => {
       const res = await api.events.$post({
@@ -70,115 +71,137 @@ function RouteComponent() {
         "flex flex-col gap-4 justify-center m-auto mt-10 max-w-[340px]"
       }
     >
-      <form.Field
-        name="title"
-        validators={{
-          onChange: eventsPostSchema.shape.title,
-        }}
-        children={(field) => {
-          return (
-            <>
-              <Label htmlFor={field.name} className={" text-lg"}>
-                Title
-              </Label>
-              <Input
-                type="text"
-                id={field.name}
-                name={field.name}
-                value={field.state.value}
-                onBlur={field.handleBlur}
-                onChange={(e) => field.handleChange(e.target.value)}
-                placeholder="Event title"
-              />
-              <FieldInfo field={field} />
-            </>
-          );
-        }}
-      />
-      <form.Field
-        name="description"
-        children={(field) => {
-          return (
-            <>
-              <Label htmlFor={field.name} className={" text-lg"}>
-                Description
-              </Label>
-              <div className={"relative"}>
-                <Textarea
-                  rows={10}
+      <div>
+        <form.Field
+          name="title"
+          validators={{
+            onChange: eventsPostSchema.shape.title,
+          }}
+          children={(field) => {
+            return (
+              <>
+                <Label htmlFor={field.name} className={"text-lg"}>
+                  Title
+                </Label>
+                <Input
+                  type="text"
                   id={field.name}
                   name={field.name}
                   value={field.state.value}
                   onBlur={field.handleBlur}
                   onChange={(e) => field.handleChange(e.target.value)}
-                  placeholder="Short description"
+                  placeholder="Event title"
                 />
-                <Button
-                  variant={"ghost"}
-                  type={"button"}
-                  className={"absolute bottom-2 right-2"}
-                  size={"icon"}
-                  onClick={() => {
-                    setIsOpen(!isOpen);
+                <FieldInfo field={field} />
+              </>
+            );
+          }}
+        />
+      </div>
+      <div>
+        <form.Field
+          name="description"
+          children={(field) => {
+            return (
+              <>
+                <Label htmlFor={field.name} className={"text-lg"}>
+                  Description
+                </Label>
+                <div className={"relative"}>
+                  <Textarea
+                    rows={10}
+                    id={field.name}
+                    name={field.name}
+                    value={field.state.value}
+                    onBlur={field.handleBlur}
+                    onChange={(e) => field.handleChange(e.target.value)}
+                    placeholder="Short description"
+                  />
+                  <Button
+                    variant={"ghost"}
+                    type={"button"}
+                    className={"absolute bottom-2 right-2"}
+                    size={"icon"}
+                    onClick={() => {
+                      setIsOpen(!isOpen);
+                    }}
+                  >
+                    <Smile />
+                  </Button>
+                </div>
+                <EmojiPicker
+                  theme={
+                    theme === "dark"
+                      ? Theme.DARK
+                      : theme === "light"
+                        ? Theme.LIGHT
+                        : Theme.AUTO
+                  }
+                  defaultSkinTone={SkinTones.NEUTRAL}
+                  skinTonesDisabled={true}
+                  open={isOpen}
+                  onEmojiClick={(clicked) => {
+                    const current = form.state.values.description ?? "";
+                    form.setFieldValue("description", current + clicked.emoji);
                   }}
-                >
-                  <Smile />
-                </Button>
-              </div>
-              <EmojiPicker
-                theme={
-                  theme === "dark"
-                    ? Theme.DARK
-                    : theme === "light"
-                      ? Theme.LIGHT
-                      : Theme.AUTO
-                }
-                defaultSkinTone={SkinTones.NEUTRAL}
-                skinTonesDisabled={true}
-                open={isOpen}
-                onEmojiClick={(clicked) => {
-                  const current = form.state.values.description ?? "";
-                  form.setFieldValue("description", current + clicked.emoji);
-                }}
-              />
-              <FieldInfo field={field} />
-            </>
-          );
-        }}
-      />
-      <form.Field
-        name="date"
-        children={(field) => {
-          return (
-            <>
-              <div className={"flex m-auto"}>
-                <Calendar
-                  mode="single"
-                  selected={new Date(field.state.value)}
-                  onSelect={(date) =>
-                    field.handleChange(
-                      (date ?? new Date()).toLocaleDateString(),
-                    )
-                  }
-                  className="rounded-md border shadow"
-                  footer={
-                    field.state.value ? (
-                      <p
-                        className={
-                          "font-light italic text-gray-400 dark:text-slate-600"
-                        }
-                      >{`Selected: ${new Date(field.state.value).toLocaleDateString()}`}</p>
-                    ) : (
-                      "Pick a day."
-                    )
-                  }
                 />
-              </div>
-              <FieldInfo field={field} />
-            </>
-          );
-        }}
-      />
+                <FieldInfo field={field} />
+              </>
+            );
+          }}
+        />
+      </div>
+      <div>
+        <form.Field
+          name="date"
+          children={(field) => {
+            return (
+              <>
+                <div className={"flex flex-col items-start"}>
+                  <Label htmlFor={field.name} className={"text-lg"}>
+                    Date
+                  </Label>
+                  <Calendar
+                    id={field.name}
+                    mode="single"
+                    selected={new Date(field.state.value)}
+                    onSelect={(date) =>
+                      field.handleChange(
+                        (date ?? new Date()).toLocaleDateString(),
+                      )
+                    }
+                    className="rounded-md border shadow"
+                  />
+                </div>
+                <FieldInfo field={field} />
+              </>
+            );
+          }}
+        />
+      </div>
+      <div>
+        <form.Field
+          name="time"
+          children={(field) => {
+            return (
+              <>
+                <Label htmlFor={field.name} className={" text-lg"}>
+                  Time
+                </Label>
+                <Input
+                  type="time"
+                  id={field.name}
+                  name={field.name}
+                  value={field.state.value}
+                  onBlur={field.handleBlur}
+                  onChange={(e) => field.handleChange(e.target.value)}
+                />
+                <FieldInfo field={field} />
+              </>
+            );
+          }}
+        />
+      </div>
       <form.Subscribe
         selector={(state) => [state.canSubmit, state.isSubmitting]}
         children={([canSubmit, isSubmitting]) => (

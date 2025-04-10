@@ -1,4 +1,4 @@
-import { date, pgTable, serial, text, timestamp } from "drizzle-orm/pg-core";
+import {date, pgTable, serial, text, time, timestamp} from "drizzle-orm/pg-core";
 import { createInsertSchema } from "drizzle-zod";
 import { z } from "zod";
 
@@ -8,6 +8,7 @@ export const eventsTable = pgTable("events", {
   title: text("title").notNull(),
   description: text("description"),
   date: date("date").notNull(),
+  time: time().defaultNow(),
   createdAt: timestamp("created_at").defaultNow().notNull(),
 });
 
@@ -17,6 +18,7 @@ export const eventsPostSchema = createInsertSchema(eventsTable, {
     .min(3, { message: "Title should be at least 3 characters long" }),
   description: z.string().optional(),
   userId: z.string(),
+  time: z.string()
 }).omit({
   eventId: true,
   createdAt: true,
