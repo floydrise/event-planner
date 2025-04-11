@@ -1,6 +1,7 @@
 import {
   Pagination,
   PaginationContent,
+  PaginationEllipsis,
   PaginationItem,
   PaginationLink,
   PaginationNext,
@@ -70,6 +71,38 @@ function Events() {
   });
 
   const numOfPages = data?.totalCount ? Math.ceil(data.totalCount / 5) : 1;
+
+  const paginationRange = () => {
+    const totalBlocks = 5;
+
+    if (numOfPages <= totalBlocks) {
+      return [...Array(numOfPages)].map((_, i) => i + 1);
+    }
+
+    const pages = [];
+    const leftSiblingIndex = Math.max(page - 1, 2);
+    const rightSiblingIndex = Math.min(page + 1, numOfPages - 1);
+
+    pages.push(1);
+
+    if (leftSiblingIndex > 2) {
+      pages.push("left-ellipsis");
+    }
+
+    for (let i = leftSiblingIndex; i <= rightSiblingIndex; i++) {
+      pages.push(i);
+    }
+
+    if (rightSiblingIndex < numOfPages - 1) {
+      pages.push("right-ellipsis");
+    }
+
+    pages.push(numOfPages);
+    return pages;
+  };
+
+  const tableHeads = ["Title", "Description", "Time", "Date", "Info", "Delete"];
+
   return (
     <>
       <div className={"w-auto md:w-[1000px] space-y-2 m-auto mt-10"}>
@@ -87,12 +120,11 @@ function Events() {
             <TableCaption>A list of your planned events.</TableCaption>
             <TableHeader>
               <TableRow>
-                <TableHead className={"font-bold"}>Title</TableHead>
-                <TableHead className={"font-bold"}>Description</TableHead>
-                <TableHead className={"font-bold"}>Time</TableHead>
-                <TableHead className={"font-bold"}>Date</TableHead>
-                <TableHead className={"font-bold"}>Info</TableHead>
-                <TableHead className={"font-bold"}>Delete</TableHead>
+                {tableHeads.map((title, index) => (
+                  <TableHead key={index} className={"font-bold"}>
+                    {title}
+                  </TableHead>
+                ))}
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -145,7 +177,8 @@ function Events() {
                           </DialogDescription>
                         </DialogHeader>
                         <DialogFooter>
-                          <p className={"font-light italic"}>
+                          <p className={"font-light italic"}>Created at: {event.createdAt.split("T")[0].split("-").reverse().join("/")}</p>
+                          <p className={"font-semibold"}>
                             Scheduled for: {event.time?.split(":")[0]}:
                             {event.time?.split(":")[1]}{" "}
                             {event.date.split("-").reverse().join("/")}
@@ -173,37 +206,49 @@ function Events() {
         )}
 
         {/* Pagination */}
-        <Pagination className={"mt-10"}>
-          <PaginationContent>
-            <PaginationItem>
-              <PaginationPrevious
-                to={"/events"}
-                search={{ page: page - 1 }}
-                disabled={data?.page! === 1}
-              />
-            </PaginationItem>
-            {numOfPages > 1 &&
-              new Array(numOfPages).fill(0).map((_, index) => (
-                <PaginationItem key={index}>
-                  <PaginationLink
-                    to={"/events"}
-                    search={{ page: index + 1 }}
-                    isActive={data?.page === index + 1}
-                  >
-                    {index + 1}
-                  </PaginationLink>
-                </PaginationItem>
-              ))}
+        {numOfPages > 1 && (
+          <Pagination className={"mt-10"}>
+            <PaginationContent>
+              <PaginationItem>
+                <PaginationPrevious
+                  to={"/events"}
+                  search={{ page: page - 1 }}
+                  disabled={data?.page! === 1}
+                />
+              </PaginationItem>
 
-            <PaginationItem>
-              <PaginationNext
-                to={"/events"}
-                search={{ page: page + 1 }}
-                disabled={!data?.hasNext}
-              />
-            </PaginationItem>
-          </PaginationContent>
-        </Pagination>
+              {paginationRange().map((item, index) => {
+                if (item === "left-ellipsis" || item === "right-ellipsis") {
+                  return (
+                    <PaginationItem key={item + index}>
+                      <PaginationEllipsis />
+                    </PaginationItem>
+                  );
+                }
+
+                return (
+                  <PaginationItem key={item}>
+                    <PaginationLink
+                      to={"/events"}
+                      search={{ page: Number(item) }}
+                      isActive={data?.page === item}
+                    >
+                      {item}
+                    </PaginationLink>
+                  </PaginationItem>
+                );
+              })}
+
+              <PaginationItem>
+                <PaginationNext
+                  to={"/events"}
+                  search={{ page: page + 1 }}
+                  disabled={!data?.hasNext}
+                />
+              </PaginationItem>
+            </PaginationContent>
+          </Pagination>
+        )}
       </div>
       {error && toast.error("An error occured: " + error.message)}
     </>
