@@ -6,7 +6,7 @@ import {
   useMutation,
   useQueryClient,
 } from "@tanstack/react-query";
-import { useNavigate } from "@tanstack/react-router";
+import {useNavigate} from "@tanstack/react-router";
 
 export const api = hc<AppType>("/").api;
 
@@ -34,17 +34,17 @@ export const logOut = () => {
   });
 };
 
-export const getEvents = async () => {
-  const res = await api.events.$get();
+export const getEvents = async (page:string) => {
+  const res = await api.events.$get({query: {page}});
   if (!res.ok) throw new Error("Error while fetching events");
   return await res.json();
 };
 
-export const getEventsQueryOptions = queryOptions({
-  queryKey: ["get-events"],
-  queryFn: getEvents,
+/*export const getEventsQueryOptions = queryOptions({
+  queryKey: ["get-events", page],
+  queryFn: getEvents(page),
   staleTime: 1000 * 60 * 5,
-});
+});*/
 
 export const deleteEvent = async (eventId: number) => {
   const res = await api.events[":id{[0-9]+}"].$delete({

@@ -2,19 +2,45 @@ import { Hono } from "hono";
 import { zValidator } from "@hono/zod-validator";
 import { eventsPostSchema, eventsTable } from "../db/schema/events";
 import { db } from "../db";
-import { and, asc, desc, eq } from "drizzle-orm";
+import {and, asc, count, desc, eq} from "drizzle-orm";
 import { requireAuth } from "../middleware";
+import { z } from "zod";
 
 const eventsRoute = new Hono()
-  .get("/", requireAuth, async (c) => {
-    const user = c.var.user;
-    const events = await db
-      .select()
-      .from(eventsTable)
-      .where(eq(eventsTable.userId, user.id))
-      .orderBy(desc(eventsTable.createdAt));
-    return c.json({ events }, 200);
-  })
+  .get(
+    "/",
+    requireAuth,
+    zValidator(
+      "query",
+      z.object({
+        page: z.coerce.number().min(1).optional(),
+      }),
+      (result, c) => {
+        if (!result.success) {
+          return c.json({ msg: "Bad request" }, 400);
+        }
+      },
+    ),
+    async (c) => {
+      const { page } = c.req.valid("query");
+      const user = c.var.user;
+      const limit = 5;
+      const offset = page ? (page - 1) * limit : 0;
+      const events = await db
+        .select()
+        .from(eventsTable)
+        .where(eq(eventsTable.userId, user.id))
+        .orderBy(desc(eventsTable.createdAt))
+        .limit(limit + 1)
+        .offset(offset);
+      const totalCount = await db
+          .select({count: count()})
+          .from(eventsTable)
+          .where(eq(eventsTable.userId, user.id)).then((data) => data[0])
+      const hasNext = events.length > limit;
+      return c.json({ events: events.slice(0, limit), page, hasNext, totalCount: totalCount.count }, 200);
+    },
+  )
   .get("/:id{[0-9]+}", requireAuth, async (c) => {
     const user = c.var.user;
     const { id } = c.req.param();
