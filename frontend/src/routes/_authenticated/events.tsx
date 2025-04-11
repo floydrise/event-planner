@@ -1,4 +1,12 @@
 import {
+  Pagination,
+  PaginationContent,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from "@/components/ui/pagination";
+import {
   Dialog,
   DialogContent,
   DialogDescription,
@@ -18,7 +26,12 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { createFileRoute } from "@tanstack/react-router";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import {
+  keepPreviousData,
+  useMutation,
+  useQuery,
+  useQueryClient,
+} from "@tanstack/react-query";
 import { deleteEvent, getEvents } from "@/lib/api.ts";
 import { Button } from "@/components/ui/button.tsx";
 import { BadgeInfo, TrashIcon, TriangleAlert } from "lucide-react";
@@ -28,7 +41,7 @@ import { z } from "zod";
 import { zodValidator, fallback } from "@tanstack/zod-adapter";
 
 const productSearchSchema = z.object({
-  page: fallback(z.number(), 1).default(1),
+  page: fallback(z.number().min(1), 1).default(1),
 });
 
 export const Route = createFileRoute("/_authenticated/events")({
@@ -38,11 +51,11 @@ export const Route = createFileRoute("/_authenticated/events")({
 
 function Events() {
   const { page } = Route.useSearch();
-  console.log(page);
   const queryClient = useQueryClient();
   const { isLoading, error, data } = useQuery({
     queryKey: ["get-events", page],
     queryFn: () => getEvents(String(page)),
+    placeholderData: keepPreviousData,
     staleTime: 1000 * 60 * 5,
   });
   const mutation = useMutation({
@@ -56,6 +69,9 @@ function Events() {
     onSettled: () =>
       queryClient.invalidateQueries({ queryKey: ["get-events"] }),
   });
+
+  const numOfPages = data?.totalCount ? Math.ceil(data.totalCount / 5) : 1;
+
   return (
     <>
       <div className={"w-auto md:w-[1000px] space-y-2 m-auto mt-10"}>
@@ -157,6 +173,36 @@ function Events() {
             </TableBody>
           </Table>
         )}
+        {/* Pagination */}
+        <Pagination className={"mt-10"}>
+          <PaginationContent>
+            {data?.page! > 1 ? (
+              <PaginationItem>
+                <PaginationPrevious
+                  to={"/events"}
+                  search={{ page: page - 1 }}
+                />
+              </PaginationItem>
+            ) : null}
+            {numOfPages > 1 &&
+              new Array(numOfPages).fill(0).map((_, index) => (
+                <PaginationItem key={index}>
+                  <PaginationLink
+                    to={"/events"}
+                    search={{ page: index + 1 }}
+                    isActive={data?.page === index + 1}
+                  >
+                    {index + 1}
+                  </PaginationLink>
+                </PaginationItem>
+              ))}
+            {data?.hasNext && (
+              <PaginationItem>
+                <PaginationNext to={"/events"} search={{ page: page + 1 }} />
+              </PaginationItem>
+            )}
+          </PaginationContent>
+        </Pagination>
       </div>
       {error && toast.error("An error occured: " + error.message)}
     </>
