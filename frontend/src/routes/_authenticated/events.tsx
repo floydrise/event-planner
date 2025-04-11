@@ -17,21 +17,34 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute } from "@tanstack/react-router";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { deleteEvent, getEventsQueryOptions } from "@/lib/api.ts";
+import { deleteEvent, getEvents } from "@/lib/api.ts";
 import { Button } from "@/components/ui/button.tsx";
 import { BadgeInfo, TrashIcon, TriangleAlert } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton.tsx";
 import { toast } from "sonner";
+import { z } from "zod";
+import { zodValidator, fallback } from "@tanstack/zod-adapter";
+
+const productSearchSchema = z.object({
+  page: fallback(z.number(), 1).default(1),
+});
 
 export const Route = createFileRoute("/_authenticated/events")({
+  validateSearch: zodValidator(productSearchSchema),
   component: Events,
 });
 
 function Events() {
+  const { page } = Route.useSearch();
+  console.log(page);
   const queryClient = useQueryClient();
-  const { isLoading, error, data } = useQuery(getEventsQueryOptions);
+  const { isLoading, error, data } = useQuery({
+    queryKey: ["get-events", page],
+    queryFn: () => getEvents(String(page)),
+    staleTime: 1000 * 60 * 5,
+  });
   const mutation = useMutation({
     mutationFn: deleteEvent,
     onSuccess: () => {
@@ -51,15 +64,9 @@ function Events() {
             .fill(null)
             .map((_, index) => <Skeleton key={index} className={"h-10"} />)
         ) : data?.events.length === 0 ? (
-          <div className={"flex justify-center items-center gap-2"}>
+          <div className={"flex justify-center items-center gap-4"}>
             <TriangleAlert className={"size-10"} />
-            <p className={"font-base"}>
-              No events yet, why don't you{" "}
-              <Link to={"/create"} className={"underline"}>
-                add
-              </Link>{" "}
-              one?
-            </p>
+            <p className={"font-base text-2xl"}>Nothing here yet</p>
           </div>
         ) : (
           <Table>
