@@ -15,7 +15,6 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-
 import {
   Table,
   TableBody,
@@ -40,12 +39,12 @@ import { toast } from "sonner";
 import { z } from "zod";
 import { zodValidator, fallback } from "@tanstack/zod-adapter";
 
-const productSearchSchema = z.object({
+const pageSchema = z.object({
   page: fallback(z.number().min(1), 1).default(1),
 });
 
 export const Route = createFileRoute("/_authenticated/events")({
-  validateSearch: zodValidator(productSearchSchema),
+  validateSearch: zodValidator(pageSchema),
   component: Events,
 });
 
@@ -71,7 +70,6 @@ function Events() {
   });
 
   const numOfPages = data?.totalCount ? Math.ceil(data.totalCount / 5) : 1;
-
   return (
     <>
       <div className={"w-auto md:w-[1000px] space-y-2 m-auto mt-10"}>
@@ -173,17 +171,17 @@ function Events() {
             </TableBody>
           </Table>
         )}
+
         {/* Pagination */}
         <Pagination className={"mt-10"}>
           <PaginationContent>
-            {data?.page! > 1 ? (
-              <PaginationItem>
-                <PaginationPrevious
-                  to={"/events"}
-                  search={{ page: page - 1 }}
-                />
-              </PaginationItem>
-            ) : null}
+            <PaginationItem>
+              <PaginationPrevious
+                to={"/events"}
+                search={{ page: page - 1 }}
+                disabled={data?.page! === 1}
+              />
+            </PaginationItem>
             {numOfPages > 1 &&
               new Array(numOfPages).fill(0).map((_, index) => (
                 <PaginationItem key={index}>
@@ -196,11 +194,14 @@ function Events() {
                   </PaginationLink>
                 </PaginationItem>
               ))}
-            {data?.hasNext && (
-              <PaginationItem>
-                <PaginationNext to={"/events"} search={{ page: page + 1 }} />
-              </PaginationItem>
-            )}
+
+            <PaginationItem>
+              <PaginationNext
+                to={"/events"}
+                search={{ page: page + 1 }}
+                disabled={!data?.hasNext}
+              />
+            </PaginationItem>
           </PaginationContent>
         </Pagination>
       </div>
