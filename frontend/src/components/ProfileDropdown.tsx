@@ -31,10 +31,7 @@ export function ProfileDropdown() {
             <Avatar>
               <AvatarImage src={user.image ?? ""} alt="profile pic" />
               <AvatarFallback>
-                <img
-                  src={"https://github.com/shadcn.png"}
-                  alt={"Fallback user image"}
-                />
+                {user.name.split(" ")[0] + user.name.split(" ")[1]}
               </AvatarFallback>
             </Avatar>
           </NavigationMenuTrigger>
