@@ -80,7 +80,7 @@ function RouteComponent() {
           children={(field) => {
             return (
               <>
-                <Label htmlFor={field.name} className={"text-lg"}>
+                <Label htmlFor={field.name} className={"text-lg m-auto w-fit"}>
                   Title
                 </Label>
                 <Input
@@ -104,7 +104,7 @@ function RouteComponent() {
           children={(field) => {
             return (
               <>
-                <Label htmlFor={field.name} className={"text-lg"}>
+                <Label htmlFor={field.name} className={"text-lg w-fit m-auto"}>
                   Description
                 </Label>
                 <div className={"relative mb-2"}>
@@ -157,7 +157,7 @@ function RouteComponent() {
           children={(field) => {
             return (
               <>
-                <div className={"flex flex-col items-start"}>
+                <div className={"flex flex-col items-center"}>
                   <Label htmlFor={field.name} className={"text-lg"}>
                     Date
                   </Label>
@@ -185,7 +185,7 @@ function RouteComponent() {
           children={(field) => {
             return (
               <>
-                <Label htmlFor={field.name} className={" text-lg"}>
+                <Label htmlFor={field.name} className={"m-auto w-fit text-lg"}>
                   Time
                 </Label>
                 <Input
@@ -195,6 +195,7 @@ function RouteComponent() {
                   value={field.state.value}
                   onBlur={field.handleBlur}
                   onChange={(e) => field.handleChange(e.target.value)}
+                  className={"w-fit m-auto"}
                 />
                 <FieldInfo field={field} />
               </>
