@@ -73,7 +73,7 @@ function Events() {
   const numOfPages = data?.totalCount ? Math.ceil(data.totalCount / 5) : 1;
 
   const paginationRange = () => {
-    const totalBlocks = 5;
+    const totalBlocks = 7;
 
     if (numOfPages <= totalBlocks) {
       return [...Array(numOfPages)].map((_, i) => i + 1);
@@ -177,7 +177,14 @@ function Events() {
                           </DialogDescription>
                         </DialogHeader>
                         <DialogFooter>
-                          <p className={"font-light italic"}>Created at: {event.createdAt.split("T")[0].split("-").reverse().join("/")}</p>
+                          <p className={"font-light italic"}>
+                            Created at:{" "}
+                            {event.createdAt
+                              .split("T")[0]
+                              .split("-")
+                              .reverse()
+                              .join("/")}
+                          </p>
                           <p className={"font-semibold"}>
                             Scheduled for: {event.time?.split(":")[0]}:
                             {event.time?.split(":")[1]}{" "}

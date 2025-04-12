@@ -1,7 +1,6 @@
 import { Link } from "@tanstack/react-router";
 import { ProfileDropdown } from "@/components/ProfileDropdown.tsx";
 import { Button } from "@/components/ui/button.tsx";
-import { authClient } from "@/lib/auth-client.ts";
 import { ThemeSwitcher } from "@/components/mode-toggle.tsx";
 import { useQuery } from "@tanstack/react-query";
 import { getSessionQueryOptions } from "@/lib/api.ts";
@@ -34,16 +33,9 @@ const NavBar = () => {
           {data?.session ? (
             <ProfileDropdown />
           ) : (
-            <Button
-              onClick={async () =>
-                await authClient.signIn.social({
-                  provider: "github",
-                  callbackURL: "/events",
-                })
-              }
-            >
-              Log in
-            </Button>
+            <Link to={"/login"}>
+              <Button>Log in</Button>
+            </Link>
           )}
           <ThemeSwitcher />
         </div>

@@ -107,7 +107,7 @@ function RouteComponent() {
                 <Label htmlFor={field.name} className={"text-lg"}>
                   Description
                 </Label>
-                <div className={"relative"}>
+                <div className={"relative mb-2"}>
                   <Textarea
                     rows={10}
                     id={field.name}
