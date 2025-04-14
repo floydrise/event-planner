@@ -42,22 +42,22 @@ function RouteComponent() {
     defaultValues: {
       title: "",
       description: "",
-      date: new Date().toLocaleDateString(),
+      date: new Date().toDateString(),
       time: "09:00",
     },
     onSubmit: async ({ value }) => {
-      const res = await api.events.$post({
-        json: {
-          ...value,
-          userId: user.id,
-        },
-      });
-      if (!res.ok) {
-        toast.error("An error occurred, try again!");
-      }
-      queryClient.invalidateQueries({ queryKey: ["get-events"] });
-      toast.success("Successfully created a new event!");
-      navigate({ to: "/events" });
+        const res = await api.events.$post({
+          json: {
+            ...value,
+            userId: user.id,
+          },
+        });
+        if (!res.ok) {
+          toast.error("An error occurred, try again!");
+        }
+        queryClient.invalidateQueries({ queryKey: ["get-events"] });
+        toast.success("Successfully created a new event!");
+        navigate({ to: "/events" });
     },
   });
   return (
@@ -167,7 +167,7 @@ function RouteComponent() {
                     selected={new Date(field.state.value)}
                     onSelect={(date) =>
                       field.handleChange(
-                        (date ?? new Date()).toLocaleDateString(),
+                        (date ?? new Date()).toDateString(),
                       )
                     }
                     className="rounded-md border shadow"

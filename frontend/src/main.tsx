@@ -48,7 +48,7 @@ if (!rootElement.innerHTML) {
     <StrictMode>
       <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
         <QueryClientProvider client={queryClient}>
-          <RouterProvider router={router} />
+          <RouterProvider router={router} scrollRestoration={true} />
           <Toaster />
         </QueryClientProvider>
       </ThemeProvider>

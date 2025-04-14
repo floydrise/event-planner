@@ -9,7 +9,7 @@ export const auth = betterAuth({
     provider: "pg",
     schema,
   }),
-  trustedOrigins: ["http://localhost:5173"],
+  trustedOrigins: ["http://localhost:5173", "https://event-planner-f3xp.onrender.com", "http://localhost:3000"],
   socialProviders: {
     github: {
       clientId: Bun.env.GITHUB_CLIENT_ID!,
