@@ -4,12 +4,12 @@ import { db } from "./server/db";
 import * as schema from "./server/db/schema/auth-schema";
 
 export const auth = betterAuth({
-  baseURL: "http://localhost:5173",
+  baseURL: Bun.env.BETTER_AUTH_URL!,
   database: drizzleAdapter(db, {
     provider: "pg",
     schema,
   }),
-  trustedOrigins: ["http://localhost:3000", "http://localhost:5173"],
+  trustedOrigins: ["http://localhost:5173"],
   socialProviders: {
     github: {
       clientId: Bun.env.GITHUB_CLIENT_ID!,
