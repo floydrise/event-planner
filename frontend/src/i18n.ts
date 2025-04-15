@@ -56,25 +56,42 @@ i18n
           navBar: {
             mainMenu: {
               events: "Events",
-              create: "Create"
+              create: "Create",
             },
-            logIn: "Log in"
+            logIn: "Log in",
           },
           profileDropdown: {
             profile: {
               header: "Profile",
-              subHeader: "Go to profile"
+              subHeader: "Go to profile",
             },
             logout: {
               header: "Logout",
-              subHeader: "App sign out"
-            }
+              subHeader: "App sign out",
+            },
           },
           themeSwitcher: {
             light: "Light",
             dark: "Dark",
-            system: "System"
-          }
+            system: "System",
+          },
+          events: {
+            tableHeader: {
+              title: "Title",
+              description: "Description",
+              time: "Time",
+              date: "Date",
+              info: "Info",
+              delete: "Delete"
+            },
+            emptyTable: "Nothing here yet",
+            tableCaption: "A list of your planned events.",
+            description: "No description",
+            dialog: {
+              createdAt: "Created at",
+              scheduled: "Scheduled for"
+            }
+          },
         },
       },
       bg: {
@@ -119,25 +136,42 @@ i18n
           navBar: {
             mainMenu: {
               events: "Събития",
-              create: "Създай"
+              create: "Създай",
             },
-            logIn: "Влез"
+            logIn: "Влез",
           },
           profileDropdown: {
             profile: {
               header: "Профил",
-              subHeader: "Към профила"
+              subHeader: "Към профила",
             },
             logout: {
               header: "Излез",
-              subHeader: "Излез от профила"
-            }
+              subHeader: "Излез от профила",
+            },
           },
           themeSwitcher: {
             light: "Светла",
             dark: "Тъмна",
-            system: "Система"
-          }
+            system: "Система",
+          },
+          events: {
+            tableHeader: {
+              title: "Заглавие",
+              description: "Описание",
+              time: "Време",
+              date: "Дата",
+              info: "Инфо",
+              delete: "Изтрии"
+            },
+            emptyTable: "Няма нищо все още",
+            tableCaption: "Лист с планираните ви събития",
+            description: "Няма описание",
+            dialog: {
+              createdAt: "Създадено на",
+              scheduled: "Планирано за"
+            }
+          },
         },
       },
     },
