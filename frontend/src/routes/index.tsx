@@ -124,7 +124,7 @@ function Index() {
       </section>
       <section
         className={
-          "grid md:grid-cols-3 grid-cols-1 md:grid-rows-2 px-20 mt-20 gap-8 md:gap-0 md:justify-evenly pb-16 mb-10 border-dotted"
+          "grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 md:grid-rows-2 px-20 mt-20 gap-8 md:gap-2 md:justify-evenly pb-16 mb-10 border-dotted"
         }
       >
         <motion.div
@@ -146,7 +146,7 @@ function Index() {
             <h3 className={"text-2xl font-semibold"}>
               {t("landing.secondList.first.header")}
             </h3>
-            <p className={"font-thin w-56"}>
+            <p className={"font-thin w-56 "}>
               {t("landing.secondList.first.para")}
             </p>
           </div>

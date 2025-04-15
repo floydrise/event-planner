@@ -13,7 +13,7 @@ const NavBar = () => {
   const { i18n, t } = useTranslation();
   const currLang = i18n.resolvedLanguage;
   return (
-    <nav className="p-4 flex justify-evenly md:justify-between md:sticky md:top-0 fixed bottom-0 w-full backdrop-blur-sm z-10 items-center gap-2">
+    <nav className="p-4 flex justify-between lg:sticky lg:top-0 fixed bottom-0 w-full backdrop-blur-3xl rounded-t-2xl md:rounded-none z-10 items-center gap-2">
       <Link to={"/"} className={"md:ml-2 shrink-0"}>
         <img
           src={"/planning.png"}
@@ -24,7 +24,7 @@ const NavBar = () => {
       <div className={"flex justify-center items-center gap-2"}>
         <div
           className={
-            "space-x-2 md:space-x-4 border bg-slate-50 dark:bg-slate-900 p-2 rounded-lg"
+            "space-x-2 md:space-x-4 border backdrop-blur-2xl p-2 rounded-lg"
           }
         >
           <Link
@@ -45,7 +45,7 @@ const NavBar = () => {
             <ProfileDropdown />
           ) : (
             <Link to={"/login"}>
-              <Button>{t("navBar.logIn")}</Button>
+              <Button variant={"outline"}>{t("navBar.logIn")}</Button>
             </Link>
           )}
           <ThemeSwitcher />
