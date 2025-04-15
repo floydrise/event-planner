@@ -92,6 +92,26 @@ i18n
               scheduled: "Scheduled for"
             }
           },
+          create: {
+            title: {
+              label: "Title",
+              placeHolder: "Event title"
+            },
+            description: {
+              label: "Description",
+              placeHolder: "Short description"
+            },
+            date: "Date",
+            time: "Time",
+            button: {
+              submit: "Submitting",
+              new: "Add new event"
+            },
+            toast: {
+              success: "Successfully created a new event!",
+              error: "An error occurred, try again!",
+            },
+          }
         },
       },
       bg: {
@@ -172,6 +192,26 @@ i18n
               scheduled: "Планирано за"
             }
           },
+          create: {
+            title: {
+              label: "Заглавие",
+              placeHolder: "Заглавие на събитието"
+            },
+            description: {
+              label: "Описание",
+              placeHolder: "Кратко описание"
+            },
+            date: "Дата",
+            time: "Час",
+            button: {
+              submit: "Създава",
+              new: "Добави ново събитие"
+            },
+            toast: {
+              success: "Успешно създадохте ново събитие!",
+              error: "Изникна грешка, моля опитайте отново!",
+            },
+          }
         },
       },
     },

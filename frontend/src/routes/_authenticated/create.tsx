@@ -13,6 +13,7 @@ import EmojiPicker, { SkinTones, Theme } from "emoji-picker-react";
 import { useState } from "react";
 import { Smile } from "lucide-react";
 import { useTheme } from "@/components/theme-provider.tsx";
+import { useTranslation } from "react-i18next";
 
 export const Route = createFileRoute("/_authenticated/create")({
   component: RouteComponent,
@@ -32,6 +33,7 @@ function FieldInfo({ field }: { field: AnyFieldApi }) {
 }
 
 function RouteComponent() {
+  const { t } = useTranslation();
   const { theme } = useTheme();
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const queryClient = useQueryClient();
@@ -46,18 +48,18 @@ function RouteComponent() {
       time: "09:00",
     },
     onSubmit: async ({ value }) => {
-        const res = await api.events.$post({
-          json: {
-            ...value,
-            userId: user.id,
-          },
-        });
-        if (!res.ok) {
-          toast.error("An error occurred, try again!");
-        }
-        queryClient.invalidateQueries({ queryKey: ["get-events"] });
-        toast.success("Successfully created a new event!");
-        navigate({ to: "/events" });
+      const res = await api.events.$post({
+        json: {
+          ...value,
+          userId: user.id,
+        },
+      });
+      if (!res.ok) {
+        toast.error(t("create.toast.error"));
+      }
+      queryClient.invalidateQueries({ queryKey: ["get-events"] });
+      toast.success(t("create.toast.success"));
+      navigate({ to: "/events" });
     },
   });
   return (
@@ -81,7 +83,7 @@ function RouteComponent() {
             return (
               <>
                 <Label htmlFor={field.name} className={"text-lg m-auto w-fit"}>
-                  Title
+                  {t("create.title.label")}
                 </Label>
                 <Input
                   type="text"
@@ -90,7 +92,7 @@ function RouteComponent() {
                   value={field.state.value}
                   onBlur={field.handleBlur}
                   onChange={(e) => field.handleChange(e.target.value)}
-                  placeholder="Event title"
+                  placeholder={t("create.title.placeHolder")}
                 />
                 <FieldInfo field={field} />
               </>
@@ -105,7 +107,7 @@ function RouteComponent() {
             return (
               <>
                 <Label htmlFor={field.name} className={"text-lg w-fit m-auto"}>
-                  Description
+                  {t("create.description.label")}
                 </Label>
                 <div className={"relative mb-2"}>
                   <Textarea
@@ -115,7 +117,7 @@ function RouteComponent() {
                     value={field.state.value}
                     onBlur={field.handleBlur}
                     onChange={(e) => field.handleChange(e.target.value)}
-                    placeholder="Short description"
+                    placeholder={t("create.description.placeHolder")}
                   />
                   <Button
                     variant={"ghost"}
@@ -159,16 +161,14 @@ function RouteComponent() {
               <>
                 <div className={"flex flex-col items-center"}>
                   <Label htmlFor={field.name} className={"text-lg"}>
-                    Date
+                    {t("create.date")}
                   </Label>
                   <Calendar
                     id={field.name}
                     mode="single"
                     selected={new Date(field.state.value)}
                     onSelect={(date) =>
-                      field.handleChange(
-                        (date ?? new Date()).toDateString(),
-                      )
+                      field.handleChange((date ?? new Date()).toDateString())
                     }
                     className="rounded-md border shadow"
                   />
@@ -186,7 +186,7 @@ function RouteComponent() {
             return (
               <>
                 <Label htmlFor={field.name} className={"m-auto w-fit text-lg"}>
-                  Time
+                  {t("create.time")}
                 </Label>
                 <Input
                   type="time"
@@ -211,7 +211,7 @@ function RouteComponent() {
             disabled={!canSubmit}
             className={"w-full m-auto mb-4"}
           >
-            {isSubmitting ? "Submitting" : "Add new event"}
+            {isSubmitting ? t("create.button.submit") : t("create.button.new")}
           </Button>
         )}
       />
