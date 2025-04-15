@@ -4,9 +4,14 @@ import { Button } from "@/components/ui/button.tsx";
 import { ThemeSwitcher } from "@/components/mode-toggle.tsx";
 import { useQuery } from "@tanstack/react-query";
 import { getSessionQueryOptions } from "@/lib/api.ts";
+import { useTranslation } from "react-i18next";
+
+const lngs = ["en-GB", "bg-BG"];
 
 const NavBar = () => {
   const { data } = useQuery(getSessionQueryOptions);
+  const { i18n } = useTranslation();
+  const currLang = i18n.resolvedLanguage;
   return (
     <nav className="p-4 flex justify-evenly md:justify-between sticky top-0 backdrop-blur-sm z-10 items-center gap-2">
       <Link to={"/"} className={"md:ml-2 shrink-0"}>
@@ -38,6 +43,15 @@ const NavBar = () => {
             </Link>
           )}
           <ThemeSwitcher />
+          <Button
+            variant={"outline"}
+            size={"icon"}
+            onClick={() =>
+              i18n.changeLanguage(currLang === "en" ? lngs[1] : lngs[0])
+            }
+          >
+            {currLang === "en" ? "BG" : "EN"}
+          </Button>
         </div>
       </div>
     </nav>
