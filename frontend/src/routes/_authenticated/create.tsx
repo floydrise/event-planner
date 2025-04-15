@@ -209,7 +209,7 @@ function RouteComponent() {
           <Button
             type="submit"
             disabled={!canSubmit}
-            className={"w-full m-auto mb-4"}
+            className={"w-full m-auto mb-4 md:mb-26 lg:mb-0"}
           >
             {isSubmitting ? t("create.button.submit") : t("create.button.new")}
           </Button>

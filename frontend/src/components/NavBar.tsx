@@ -13,7 +13,7 @@ const NavBar = () => {
   const { i18n, t } = useTranslation();
   const currLang = i18n.resolvedLanguage;
   return (
-    <nav className="p-4 flex justify-between lg:sticky lg:top-0 fixed bottom-0 w-full backdrop-blur-3xl rounded-t-2xl md:rounded-none z-10 items-center gap-2">
+    <nav className="p-4 flex justify-between lg:sticky lg:top-0 fixed bottom-0 w-full backdrop-blur-3xl rounded-t-2xl lg:rounded-none z-10 items-center gap-2">
       <Link to={"/"} className={"md:ml-2 shrink-0"}>
         <img
           src={"/planning.png"}

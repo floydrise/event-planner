@@ -107,7 +107,7 @@ function Events() {
 
   return (
     <>
-      <div className={"w-auto md:w-[1000px] space-y-2 m-auto mt-10"}>
+      <div className={"w-auto lg:w-[1000px] space-y-2 m-auto mt-10"}>
         {isLoading ? (
           new Array(4)
             .fill(null)
@@ -118,7 +118,7 @@ function Events() {
             <p className={"font-base text-2xl"}>{t("events.emptyTable")}</p>
           </div>
         ) : (
-          <Table>
+          <Table className={`${numOfPages < 2 ? "mb-24": "mb-0"} md:mb-0`}>
             <TableCaption>{t("events.tableCaption")}</TableCaption>
             <TableHeader>
               <TableRow>
@@ -214,7 +214,7 @@ function Events() {
 
         {/* Pagination */}
         {numOfPages > 1 && (
-          <Pagination className={"mt-10"}>
+          <Pagination className={"mt-10 mb-26 lg:mb-0"}>
             <PaginationContent>
               <PaginationItem>
                 <PaginationPrevious
