@@ -8,7 +8,7 @@ i18n
   .use(initReactI18next)
   .init({
     fallbackLng: "en",
-    debug: true,
+    debug: false,
 
     interpolation: {
       escapeValue: false,
@@ -82,40 +82,40 @@ i18n
               time: "Time",
               date: "Date",
               info: "Info",
-              delete: "Delete"
+              delete: "Delete",
             },
             emptyTable: "Nothing here yet",
             tableCaption: "A list of your planned events.",
             description: "No description",
             dialog: {
               createdAt: "Created at",
-              scheduled: "Scheduled for"
+              scheduled: "Scheduled for",
             },
             toast: {
               success: "Successfully deleted event!",
               error: "An error occurred",
-            }
+            },
           },
           create: {
             title: {
               label: "Title",
-              placeHolder: "Event title"
+              placeHolder: "Event title",
             },
             description: {
               label: "Description",
-              placeHolder: "Short description"
+              placeHolder: "Short description",
             },
             date: "Date",
             time: "Time",
             button: {
               submit: "Submitting",
-              new: "Add new event"
+              new: "Add new event",
             },
             toast: {
               success: "Successfully created a new event!",
               error: "An error occurred, try again!",
             },
-          }
+          },
         },
       },
       bg: {
@@ -186,40 +186,40 @@ i18n
               time: "Време",
               date: "Дата",
               info: "Инфо",
-              delete: "Изтрии"
+              delete: "Изтрии",
             },
             emptyTable: "Няма нищо все още",
             tableCaption: "Лист с планираните ви събития",
             description: "Няма описание",
             dialog: {
               createdAt: "Създадено на",
-              scheduled: "Планирано за"
+              scheduled: "Планирано за",
             },
             toast: {
               success: "Успешно изтрихте събитието!",
               error: "Изникна грешка",
-            }
+            },
           },
           create: {
             title: {
               label: "Заглавие",
-              placeHolder: "Заглавие на събитието"
+              placeHolder: "Заглавие на събитието",
             },
             description: {
               label: "Описание",
-              placeHolder: "Кратко описание"
+              placeHolder: "Кратко описание",
             },
             date: "Дата",
             time: "Час",
             button: {
               submit: "Създава",
-              new: "Добави ново събитие"
+              new: "Добави ново събитие",
             },
             toast: {
               success: "Успешно създадохте ново събитие!",
               error: "Изникна грешка, моля опитайте отново!",
             },
-          }
+          },
         },
       },
     },
