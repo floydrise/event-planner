@@ -10,7 +10,7 @@ const lngs = ["en-GB", "bg-BG"];
 
 const NavBar = () => {
   const { data } = useQuery(getSessionQueryOptions);
-  const { i18n } = useTranslation();
+  const { i18n, t } = useTranslation();
   const currLang = i18n.resolvedLanguage;
   return (
     <nav className="p-4 flex justify-evenly md:justify-between sticky top-0 backdrop-blur-sm z-10 items-center gap-2">
@@ -27,11 +27,17 @@ const NavBar = () => {
             "space-x-2 md:space-x-4 border bg-slate-50 dark:bg-slate-900 p-2 rounded-lg"
           }
         >
-          <Link to="/events" className="[&.active]:font-bold">
-            Events
+          <Link
+            to="/events"
+            className={`[&.active]:font-bold ${currLang === "bg" ? "text-sm" : "text-base"}`}
+          >
+            {t("navBar.mainMenu.events")}
           </Link>
-          <Link to="/create" className="[&.active]:font-bold">
-            Create
+          <Link
+            to="/create"
+            className={`[&.active]:font-bold ${currLang === "bg" ? "text-sm" : "text-base"}`}
+          >
+            {t("navBar.mainMenu.create")}
           </Link>
         </div>
         <div className={"flex gap-2"}>
@@ -39,7 +45,7 @@ const NavBar = () => {
             <ProfileDropdown />
           ) : (
             <Link to={"/login"}>
-              <Button>Log in</Button>
+              <Button>{t("navBar.logIn")}</Button>
             </Link>
           )}
           <ThemeSwitcher />
@@ -50,7 +56,7 @@ const NavBar = () => {
               i18n.changeLanguage(currLang === "en" ? lngs[1] : lngs[0])
             }
           >
-            {currLang === "en" ? "BG" : "EN"}
+            {currLang === "en" ? "БГ" : "EN"}
           </Button>
         </div>
       </div>

@@ -53,6 +53,13 @@ i18n
               },
             },
           },
+          navBar: {
+            mainMenu: {
+              events: "Events",
+              create: "Create"
+            },
+            logIn: "Log in"
+          }
         },
       },
       bg: {
@@ -94,6 +101,13 @@ i18n
               },
             },
           },
+          navBar: {
+            mainMenu: {
+              events: "Събития",
+              create: "Създай"
+            },
+            logIn: "Влез"
+          }
         },
       },
     },

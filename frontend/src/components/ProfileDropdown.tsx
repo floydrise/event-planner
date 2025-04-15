@@ -16,8 +16,10 @@ import { cn } from "@/lib/utils.ts";
 import { useQuery } from "@tanstack/react-query";
 import { Link } from "@tanstack/react-router";
 import { getSessionQueryOptions, logOut } from "@/lib/api.ts";
+import {useTranslation} from "react-i18next";
 
 export function ProfileDropdown() {
+  const {t} = useTranslation();
   const mutation = logOut();
 
   const { data } = useQuery(getSessionQueryOptions);
