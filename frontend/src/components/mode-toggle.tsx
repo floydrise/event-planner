@@ -1,4 +1,4 @@
-import { Moon, Sun } from "lucide-react";
+import {Computer, Moon, Sun} from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -24,13 +24,13 @@ export function ThemeSwitcher() {
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className={"mt-2"}>
         <DropdownMenuItem onClick={() => setTheme("light")}>
-          {t("themeSwitcher.light")}
+          <Sun/> {t("themeSwitcher.light")}
         </DropdownMenuItem>
         <DropdownMenuItem onClick={() => setTheme("dark")}>
-          {t("themeSwitcher.dark")}
+          <Moon/> {t("themeSwitcher.dark")}
         </DropdownMenuItem>
         <DropdownMenuItem onClick={() => setTheme("system")}>
-          {t("themeSwitcher.system")}
+          <Computer/> {t("themeSwitcher.system")}
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
