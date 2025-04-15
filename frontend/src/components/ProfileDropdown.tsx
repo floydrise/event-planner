@@ -40,16 +40,16 @@ export function ProfileDropdown() {
           <NavigationMenuContent>
             <ul className="grid gap-3 md:w-[100px] lg:grid-cols-1">
               <Link to={"/profile"}>
-                <ListItem title="Profile">Go to profile</ListItem>
+                <ListItem title={t("profileDropdown.profile.header")}><span className={"hidden md:inline-block"}>{t("profileDropdown.profile.subHeader")}</span></ListItem>
               </Link>
               <ListItem
-                title="Logout"
+                title={t("profileDropdown.logout.header")}
                 onClick={() => {
                   mutation.mutate();
                 }}
                 className={"hover:cursor-pointer"}
               >
-                App sign out
+                <span className={"hidden md:inline-block"}>{t("profileDropdown.logout.subHeader")}</span>
               </ListItem>
             </ul>
           </NavigationMenuContent>

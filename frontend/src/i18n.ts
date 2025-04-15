@@ -59,6 +59,21 @@ i18n
               create: "Create"
             },
             logIn: "Log in"
+          },
+          profileDropdown: {
+            profile: {
+              header: "Profile",
+              subHeader: "Go to profile"
+            },
+            logout: {
+              header: "Logout",
+              subHeader: "App sign out"
+            }
+          },
+          themeSwitcher: {
+            light: "Light",
+            dark: "Dark",
+            system: "System"
           }
         },
       },
@@ -107,6 +122,21 @@ i18n
               create: "Създай"
             },
             logIn: "Влез"
+          },
+          profileDropdown: {
+            profile: {
+              header: "Профил",
+              subHeader: "Към профила"
+            },
+            logout: {
+              header: "Излез",
+              subHeader: "Излез от профила"
+            }
+          },
+          themeSwitcher: {
+            light: "Светла",
+            dark: "Тъмна",
+            system: "Система"
           }
         },
       },
