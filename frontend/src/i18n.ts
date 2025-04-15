@@ -115,6 +115,8 @@ i18n
               error: "An error occurred, try again!",
             },
           },
+          unauthorised: "Hey there buddy, please login 🙏",
+          notFound: "Page is out there, but not here!",
         },
       },
       bg: {
@@ -218,6 +220,8 @@ i18n
               error: "Изникна грешка, моля опитайте отново!",
             },
           },
+          unauthorised: "Здравей приятел, моля влез си в акаунта",
+          notFound: "Страницата е някъде там ... но не тук",
         },
       },
     },

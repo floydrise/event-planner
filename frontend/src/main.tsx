@@ -9,6 +9,7 @@ import { routeTree } from "./routeTree.gen";
 import { ThemeProvider } from "@/components/theme-provider.tsx";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "sonner";
+import {useTranslation} from "react-i18next";
 
 // Create a client
 const queryClient = new QueryClient();
@@ -18,10 +19,11 @@ const router = createRouter({
   routeTree,
   context: { queryClient },
   defaultNotFoundComponent: () => {
+      const {t} = useTranslation()
     return (
       <div className="flex flex-col justify-center items-center min-h-screen w-full">
         <h1 className="md:text-5xl text-2xl font-bold w-fit text-transparent pb-2 bg-clip-text bg-gradient-to-r from-lime-500 to-blue-500 animate-bounce">
-          Page is out there, but not here!
+            {t("notFound")}
         </h1>
         <img
           src="/404-error.png"
