@@ -61,13 +61,12 @@ i18n
             logIn: "Log in",
           },
           profileDropdown: {
+            label: "My account",
             profile: {
               header: "Profile",
-              subHeader: "Go to profile",
             },
             logout: {
               header: "Logout",
-              subHeader: "App sign out",
             },
           },
           themeSwitcher: {
@@ -165,13 +164,12 @@ i18n
             logIn: "Влез",
           },
           profileDropdown: {
+            label: "Моят акаунт",
             profile: {
               header: "Профил",
-              subHeader: "Към профила",
             },
             logout: {
               header: "Излез",
-              subHeader: "Излез от профила",
             },
           },
           themeSwitcher: {

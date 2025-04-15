@@ -70,7 +70,7 @@ function RouteComponent() {
         form.handleSubmit();
       }}
       className={
-        "flex flex-col gap-4 justify-center m-auto mt-10 max-w-[340px]"
+        "flex flex-col gap-4 justify-center m-auto mt-10 max-w-[340px] mb-16 md:mb-0"
       }
     >
       <div>
