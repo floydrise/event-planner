@@ -63,10 +63,10 @@ function Events() {
   const mutation = useMutation({
     mutationFn: deleteEvent,
     onSuccess: () => {
-      toast.success("Successfully deleted event!");
+      toast.success(t("events.toast.success"));
     },
     onError: (error) => {
-      toast.error(`An error occurred: ${error}`);
+      toast.error(`${t("events.toast.error")}: ${error}`);
     },
     onSettled: () =>
       queryClient.invalidateQueries({ queryKey: ["get-events"] }),

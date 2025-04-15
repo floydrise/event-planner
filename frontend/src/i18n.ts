@@ -90,6 +90,10 @@ i18n
             dialog: {
               createdAt: "Created at",
               scheduled: "Scheduled for"
+            },
+            toast: {
+              success: "Successfully deleted event!",
+              error: "An error occurred",
             }
           },
           create: {
@@ -190,6 +194,10 @@ i18n
             dialog: {
               createdAt: "Създадено на",
               scheduled: "Планирано за"
+            },
+            toast: {
+              success: "Успешно изтрихте събитието!",
+              error: "Изникна грешка",
             }
           },
           create: {
