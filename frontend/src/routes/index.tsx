@@ -144,9 +144,11 @@ function Index() {
           />
           <div>
             <h3 className={"text-2xl font-semibold"}>
-              {t("secondList.first.header")}
+              {t("landing.secondList.first.header")}
             </h3>
-            <p className={"font-thin w-56"}>{t("secondList.first.para")}</p>
+            <p className={"font-thin w-56"}>
+              {t("landing.secondList.first.para")}
+            </p>
           </div>
         </motion.div>
         <motion.div
@@ -166,9 +168,11 @@ function Index() {
           />
           <div>
             <h3 className={"text-2xl font-semibold"}>
-              {t("secondList.second.header")}
+              {t("landing.secondList.second.header")}
             </h3>
-            <p className={"font-thin w-56"}>{t("secondList.second.para")}</p>
+            <p className={"font-thin w-56"}>
+              {t("landing.secondList.second.para")}
+            </p>
           </div>
         </motion.div>
         <motion.div
@@ -188,9 +192,11 @@ function Index() {
           />
           <div>
             <h3 className={"text-2xl font-semibold"}>
-              {t("secondList.third.header")}
+              {t("landing.secondList.third.header")}
             </h3>
-            <p className={"font-thin w-56"}>{t("secondList.third.para")}</p>
+            <p className={"font-thin w-56"}>
+              {t("landing.secondList.third.para")}
+            </p>
           </div>
         </motion.div>
 
@@ -211,9 +217,11 @@ function Index() {
           />
           <div>
             <h3 className={"text-2xl font-semibold"}>
-              {t("secondList.fourth.header")}
+              {t("landing.secondList.fourth.header")}
             </h3>
-            <p className={"font-thin w-56"}>{t("secondList.fourth.para")}</p>
+            <p className={"font-thin w-56"}>
+              {t("landing.secondList.fourth.para")}
+            </p>
           </div>
         </motion.div>
         <motion.div
@@ -233,9 +241,11 @@ function Index() {
           />
           <div>
             <h3 className={"text-2xl font-semibold"}>
-              {t("secondList.fifth.header")}
+              {t("landing.secondList.fifth.header")}
             </h3>
-            <p className={"font-thin w-56"}>{t("secondList.fifth.para")}</p>
+            <p className={"font-thin w-56"}>
+              {t("landing.secondList.fifth.para")}
+            </p>
           </div>
         </motion.div>
         <motion.div
@@ -255,13 +265,13 @@ function Index() {
           />
           <div>
             <h3 className={"text-2xl font-semibold"}>
-              {t("secondList.sixth.header")}
+              {t("landing.secondList.sixth.header")}
             </h3>
             <p className={"font-thin w-56"}>
               <Link to={"/create"} className={"underline"}>
-                {t("secondList.sixth.link")}
+                {t("landing.secondList.sixth.link")}
               </Link>{" "}
-              {t("secondList.sixth.para")}
+              {t("landing.secondList.sixth.para")}
             </p>
           </div>
         </motion.div>
