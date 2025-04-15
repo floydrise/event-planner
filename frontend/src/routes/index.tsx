@@ -1,12 +1,14 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { BadgeCheck } from "lucide-react";
 import { motion } from "motion/react";
+import { useTranslation } from "react-i18next";
 
 export const Route = createFileRoute("/")({
   component: Index,
 });
 
 function Index() {
+  const { t } = useTranslation();
   return (
     <main className="p-4">
       <header
@@ -26,7 +28,7 @@ function Index() {
             "md:text-5xl text-3xl font-bold text-center pb-1 text-transparent bg-clip-text bg-gradient-to-r from-orange-500 to-violet-500"
           }
         >
-          Welcome to your personal scheduler
+          {t("landing.header")}
         </motion.h1>
       </header>
       <section
@@ -63,7 +65,7 @@ function Index() {
                 "font-bold whitespace-nowrap text-xl text-transparent bg-clip-text bg-gradient-to-r from-yellow-500 to-violet-500"
               }
             >
-              Plan smarter.
+              {t("landing.list.first")}
             </p>
           </div>
           <div className={"flex items-center gap-2"}>
@@ -73,7 +75,7 @@ function Index() {
                 "font-bold whitespace-nowrap text-xl text-transparent bg-clip-text bg-gradient-to-r from-yellow-500 to-violet-500"
               }
             >
-              Stress less.
+              {t("landing.list.second")}
             </p>
           </div>
           <div className={"flex items-center gap-2"}>
@@ -83,7 +85,7 @@ function Index() {
                 "font-bold whitespace-nowrap text-xl text-transparent bg-clip-text bg-gradient-to-r from-yellow-500 to-violet-500"
               }
             >
-              Celebrate more.
+              {t("landing.list.third")}
             </p>
           </div>
         </motion.div>
@@ -96,7 +98,7 @@ function Index() {
         <motion.h2
           initial={{ opacity: 0, scale: 0 }}
           whileInView={{ opacity: 1, scale: 1 }}
-          viewport={{ once: true}}
+          viewport={{ once: true }}
           transition={{
             duration: 2,
             scale: { type: "tween", visualDuration: 2 },
@@ -105,8 +107,7 @@ function Index() {
             "md:w-140 md:text-3xl text-2xl font-bold text-center border-dotted text-transparent bg-clip-text bg-gradient-to-r from-sky-500 to-lime-200"
           }
         >
-          Whether it’s a birthday bash, business meeting, or weekend getaway,
-          our Event Planner makes organizing your life simple and seamless.
+          {t("landing.subheader")}
         </motion.h2>
         <motion.img
           initial={{ opacity: 0, scale: 0 }}
@@ -143,11 +144,10 @@ function Index() {
           />
           <div>
             <h3 className={"text-2xl font-semibold"}>
-              View all your events in one place
+              {t("landing.secondList.first.header")}
             </h3>
             <p className={"font-thin w-56"}>
-              Easily keep track of everything you’ve got going on with a clean,
-              user-friendly event table.
+              {t("landing.secondList.first.para")}
             </p>
           </div>
         </motion.div>
@@ -168,11 +168,10 @@ function Index() {
           />
           <div>
             <h3 className={"text-2xl font-semibold"}>
-              Create events in seconds
+              {t("landing.secondList.second.header")}
             </h3>
             <p className={"font-thin w-56"}>
-              Just fill out a quick form, hit submit, and voilà — your event is
-              saved and ready to go.
+              {t("landing.secondList.second.para")}
             </p>
           </div>
         </motion.div>
@@ -193,11 +192,10 @@ function Index() {
           />
           <div>
             <h3 className={"text-2xl font-semibold"}>
-              Stay organized effortlessly
+              {t("landing.secondList.third.header")}
             </h3>
             <p className={"font-thin w-56"}>
-              Designed for ease of use, so you can spend less time planning and
-              more time doing.
+              {t("landing.secondList.third.para")}
             </p>
           </div>
         </motion.div>
@@ -218,11 +216,11 @@ function Index() {
             className={"w-12 rounded-lg"}
           />
           <div>
-            <h3 className={"text-2xl font-semibold"}>Seamless Navigation</h3>
+            <h3 className={"text-2xl font-semibold"}>
+              {t("landing.secondList.fourth.header")}
+            </h3>
             <p className={"font-thin w-56"}>
-              No reloads. No waiting. Our single-page experience makes
-              navigating between views instant and smooth — because planning
-              should feel effortless.
+              {t("landing.secondList.fourth.para")}
             </p>
           </div>
         </motion.div>
@@ -243,12 +241,10 @@ function Index() {
           />
           <div>
             <h3 className={"text-2xl font-semibold"}>
-              Focused. Flexible. Future-ready.
+              {t("landing.secondList.fifth.header")}
             </h3>
             <p className={"font-thin w-56"}>
-              Whether you’re managing a packed calendar or just a few key dates,
-              our app is built to grow with you. Designed for clarity, speed,
-              and ease of use.
+              {t("landing.secondList.fifth.para")}
             </p>
           </div>
         </motion.div>
@@ -268,12 +264,14 @@ function Index() {
             className={"w-12 rounded-lg"}
           />
           <div>
-            <h3 className={"text-2xl font-semibold"}>Ready to get started?</h3>
+            <h3 className={"text-2xl font-semibold"}>
+              {t("landing.secondList.sixth.header")}
+            </h3>
             <p className={"font-thin w-56"}>
               <Link to={"/create"} className={"underline"}>
-                Create
+                {t("landing.secondList.sixth.link")}
               </Link>{" "}
-              your first event and see how simple planning can be.
+              {t("landing.secondList.sixth.para")}
             </p>
           </div>
         </motion.div>

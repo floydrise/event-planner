@@ -39,6 +39,7 @@ import { Skeleton } from "@/components/ui/skeleton.tsx";
 import { toast } from "sonner";
 import { z } from "zod";
 import { zodValidator, fallback } from "@tanstack/zod-adapter";
+import { useTranslation } from "react-i18next";
 
 const pageSchema = z.object({
   page: fallback(z.number().min(1), 1).default(1),
@@ -50,6 +51,7 @@ export const Route = createFileRoute("/_authenticated/events")({
 });
 
 function Events() {
+  const { t } = useTranslation();
   const { page } = Route.useSearch();
   const queryClient = useQueryClient();
   const { isLoading, error, data } = useQuery({
@@ -61,10 +63,10 @@ function Events() {
   const mutation = useMutation({
     mutationFn: deleteEvent,
     onSuccess: () => {
-      toast.success("Successfully deleted event!");
+      toast.success(t("events.toast.success"));
     },
     onError: (error) => {
-      toast.error(`An error occurred: ${error}`);
+      toast.error(`${t("events.toast.error")}: ${error}`);
     },
     onSettled: () =>
       queryClient.invalidateQueries({ queryKey: ["get-events"] }),
@@ -101,7 +103,7 @@ function Events() {
     return pages;
   };
 
-  const tableHeads = ["Title", "Description", "Time", "Date", "Info", "Delete"];
+  const tableHeads = ["title", "description", "time", "date", "info", "delete"];
 
   return (
     <>
@@ -113,16 +115,16 @@ function Events() {
         ) : data?.events.length === 0 ? (
           <div className={"flex justify-center items-center gap-4"}>
             <TriangleAlert className={"size-10"} />
-            <p className={"font-base text-2xl"}>Nothing here yet</p>
+            <p className={"font-base text-2xl"}>{t("events.emptyTable")}</p>
           </div>
         ) : (
           <Table>
-            <TableCaption>A list of your planned events.</TableCaption>
+            <TableCaption>{t("events.tableCaption")}</TableCaption>
             <TableHeader>
               <TableRow>
                 {tableHeads.map((title, index) => (
                   <TableHead key={index} className={"font-bold"}>
-                    {title}
+                    {t(`events.tableHeader.${title}`)}
                   </TableHead>
                 ))}
               </TableRow>
@@ -142,7 +144,7 @@ function Events() {
                           "font-light text-gray-400 dark:text-gray-600"
                         }
                       >
-                        No description
+                        {t("events.description")}
                       </p>
                     ) : event.description.length > 20 ? (
                       event.description.slice(0, 12) + "..."
@@ -172,23 +174,21 @@ function Events() {
                           <DialogDescription className={"md:text-lg"}>
                             {event.description === "" ||
                             event.description === null
-                              ? "No description"
+                              ? t("events.description")
                               : event.description}
                           </DialogDescription>
                         </DialogHeader>
                         <DialogFooter>
                           <p className={"font-light italic"}>
-                            Created at:{" "}
+                            {t("events.dialog.createdAt")}:{" "}
                             {event.createdAt
                               .split("T")[0]
                               .split("-")
                               .reverse()
                               .join("/")}
                           </p>
-                          <p className={"font-semibold"}>
-                            Scheduled for: {event.time?.split(":")[0]}:
-                            {event.time?.split(":")[1]}{" "}
-                            {event.date.split("-").reverse().join("/")}
+                          <p className={"font-light italic"}>
+                            {`${t("events.dialog.scheduled")}: ${event.time?.split(":")[0]}:${event.time?.split(":")[1]} ${event.date.split("-").reverse().join("/")}`}
                           </p>
                         </DialogFooter>
                       </DialogContent>

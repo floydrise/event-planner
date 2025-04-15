@@ -16,8 +16,10 @@ import { cn } from "@/lib/utils.ts";
 import { useQuery } from "@tanstack/react-query";
 import { Link } from "@tanstack/react-router";
 import { getSessionQueryOptions, logOut } from "@/lib/api.ts";
+import {useTranslation} from "react-i18next";
 
 export function ProfileDropdown() {
+  const {t} = useTranslation();
   const mutation = logOut();
 
   const { data } = useQuery(getSessionQueryOptions);
@@ -27,7 +29,7 @@ export function ProfileDropdown() {
     <NavigationMenu>
       <NavigationMenuList>
         <NavigationMenuItem>
-          <NavigationMenuTrigger className={"bg-transparent"}>
+          <NavigationMenuTrigger className={"bg-transparent p-1"}>
             <Avatar>
               <AvatarImage src={user.image ?? ""} alt="profile pic" />
               <AvatarFallback>
@@ -38,16 +40,16 @@ export function ProfileDropdown() {
           <NavigationMenuContent>
             <ul className="grid gap-3 md:w-[100px] lg:grid-cols-1">
               <Link to={"/profile"}>
-                <ListItem title="Profile">Go to profile</ListItem>
+                <ListItem title={t("profileDropdown.profile.header")}><span className={"hidden md:inline-block"}>{t("profileDropdown.profile.subHeader")}</span></ListItem>
               </Link>
               <ListItem
-                title="Logout"
+                title={t("profileDropdown.logout.header")}
                 onClick={() => {
                   mutation.mutate();
                 }}
                 className={"hover:cursor-pointer"}
               >
-                App sign out
+                <span className={"hidden md:inline-block"}>{t("profileDropdown.logout.subHeader")}</span>
               </ListItem>
             </ul>
           </NavigationMenuContent>
