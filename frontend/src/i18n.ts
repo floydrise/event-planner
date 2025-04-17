@@ -76,11 +76,13 @@ i18n
           },
           events: {
             tableHeader: {
+              id: "ID",
               title: "Title",
               description: "Description",
               time: "Time",
               date: "Date",
               info: "Info",
+              edit: "Edit",
               delete: "Delete",
             },
             emptyTable: "Nothing here yet",
@@ -181,11 +183,13 @@ i18n
           },
           events: {
             tableHeader: {
+              id: "ID",
               title: "Заглавие",
               description: "Описание",
               time: "Време",
               date: "Дата",
               info: "Инфо",
+              edit: "Коригирай",
               delete: "Изтрии",
             },
             emptyTable: "Няма нищо все още",

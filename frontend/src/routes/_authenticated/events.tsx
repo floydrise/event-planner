@@ -34,12 +34,14 @@ import {
 } from "@tanstack/react-query";
 import { deleteEvent, getEvents } from "@/lib/api.ts";
 import { Button } from "@/components/ui/button.tsx";
-import { BadgeInfo, TrashIcon, TriangleAlert } from "lucide-react";
+import { BadgeInfo, Brush, TrashIcon, TriangleAlert } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton.tsx";
 import { toast } from "sonner";
 import { z } from "zod";
 import { zodValidator, fallback } from "@tanstack/zod-adapter";
 import { useTranslation } from "react-i18next";
+import { Label } from "@/components/ui/label.tsx";
+import { Input } from "@/components/ui/input.tsx";
 
 const pageSchema = z.object({
   page: fallback(z.number().min(1), 1).default(1),
@@ -60,7 +62,7 @@ function Events() {
     placeholderData: keepPreviousData,
     staleTime: 1000 * 60 * 5,
   });
-  const mutation = useMutation({
+  const deleteMutation = useMutation({
     mutationFn: deleteEvent,
     onSuccess: () => {
       toast.success(t("events.toast.success"));
@@ -103,7 +105,16 @@ function Events() {
     return pages;
   };
 
-  const tableHeads = ["title", "description", "time", "date", "info", "delete"];
+  const tableHeads = [
+    "id",
+    "title",
+    "description",
+    "time",
+    "date",
+    "info",
+    "edit",
+    "delete",
+  ];
 
   return (
     <>
@@ -118,7 +129,7 @@ function Events() {
             <p className={"font-base text-2xl"}>{t("events.emptyTable")}</p>
           </div>
         ) : (
-          <Table className={`${numOfPages < 2 ? "mb-24": "mb-0"} md:mb-0`}>
+          <Table className={`${numOfPages < 2 ? "mb-24" : "mb-0"} md:mb-0`}>
             <TableCaption>{t("events.tableCaption")}</TableCaption>
             <TableHeader>
               <TableRow>
@@ -132,6 +143,7 @@ function Events() {
             <TableBody>
               {data?.events.map((event) => (
                 <TableRow key={event.eventId}>
+                  <TableCell>{event.eventId}</TableCell>
                   <TableCell>
                     {event.title.length > 20
                       ? event.title.slice(0, 12) + "..."
@@ -195,12 +207,57 @@ function Events() {
                     </Dialog>
                   </TableCell>
                   <TableCell>
+                    <Dialog>
+                      <DialogTrigger
+                        type={"button"}
+                        className={"hover:cursor-pointer"}
+                      >
+                        <Brush />
+                      </DialogTrigger>
+                      <DialogContent className="sm:max-w-[425px]">
+                        <DialogHeader>
+                          <DialogTitle>Edit event</DialogTitle>
+                          <DialogDescription>
+                            Make changes to your event here. Click save when
+                            you're done.
+                          </DialogDescription>
+                        </DialogHeader>
+                        <div className="grid gap-4 py-4">
+                          <div className="grid grid-cols-4 items-center gap-4">
+                            <Label htmlFor="title" className="text-right">
+                              Title
+                            </Label>
+                            <Input
+                              id="title"
+                              value={event.title}
+                              className="col-span-3"
+                            />
+                          </div>
+                          <div className="grid grid-cols-4 items-center gap-4">
+                            <Label htmlFor="description" className="text-right">
+                              Description
+                            </Label>
+                            <Input
+                              id="description"
+                              value={event.description ?? ""}
+                              className="col-span-3"
+                            />
+                          </div>
+                        </div>
+                        <DialogFooter>
+                          <Button type="submit">Save changes</Button>
+                        </DialogFooter>
+                      </DialogContent>
+                    </Dialog>
+                  </TableCell>
+                  <TableCell>
                     <Button
                       className={"hover:cursor-pointer"}
                       size={"icon"}
-                      disabled={mutation.isPending}
+                      variant={"ghost"}
+                      disabled={deleteMutation.isPending}
                       onClick={() => {
-                        mutation.mutate(event.eventId);
+                        deleteMutation.mutate(event.eventId);
                       }}
                     >
                       <TrashIcon />
