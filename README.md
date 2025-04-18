@@ -10,7 +10,7 @@ as static files from Hono. Both front-end and back-end live in the same repo.
 
 ## 🖲️ Functionality:
 
-A user can log in with their social account (Google/GitHub), fill a form and create an event - title, description, date and time, after which they'll be redirected to a list of events. They can view a preview of the events, expand an event and see the whole information, edit an event (title and description) and delete an event.
+A user can log in with their social account (Google/GitHub), fill a form and create an event - title, description, date and time, after which they'll be redirected to a list of events. They can view a preview of the events, expand an event and see the whole information, edit all fields of an event and delete an event.
 
 ### 💻 Tech used:
 
