@@ -15,7 +15,7 @@ import { useQuery } from "@tanstack/react-query";
 import { Link } from "@tanstack/react-router";
 import { getSessionQueryOptions, logOut } from "@/lib/api.ts";
 import { useTranslation } from "react-i18next";
-import {LogOut, User} from "lucide-react";
+import { LogOut, User } from "lucide-react";
 
 export function ProfileDropdown() {
   const { t } = useTranslation();
@@ -35,17 +35,23 @@ export function ProfileDropdown() {
         </Avatar>
       </DropdownMenuTrigger>
       <DropdownMenuContent className={"md:mt-2 mb-2"}>
-        <DropdownMenuLabel className={"text-center"}>{t("profileDropdown.label")}</DropdownMenuLabel>
+        <DropdownMenuLabel className={"text-center"}>
+          {t("profileDropdown.label")}
+        </DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuItem asChild>
-          <Link to={"/profile"}><User/>{t("profileDropdown.profile.header")}</Link>
+          <Link to={"/profile"}>
+            <User />
+            {t("profileDropdown.profile.header")}
+          </Link>
         </DropdownMenuItem>
         <DropdownMenuItem
           onSelect={() => {
             mutation.mutate();
           }}
         >
-          <LogOut/>{t("profileDropdown.logout.header")}
+          <LogOut />
+          {t("profileDropdown.logout.header")}
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
