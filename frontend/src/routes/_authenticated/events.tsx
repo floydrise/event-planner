@@ -32,7 +32,7 @@ import {
   useQuery,
   useQueryClient,
 } from "@tanstack/react-query";
-import { deleteEvent, getEvents } from "@/lib/api.ts";
+import { deleteEvent, getEvents, updateEvent } from "@/lib/api.ts";
 import { Button } from "@/components/ui/button.tsx";
 import { BadgeInfo, Brush, TrashIcon, TriangleAlert } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton.tsx";
@@ -42,6 +42,7 @@ import { zodValidator, fallback } from "@tanstack/zod-adapter";
 import { useTranslation } from "react-i18next";
 import { Label } from "@/components/ui/label.tsx";
 import { Input } from "@/components/ui/input.tsx";
+import { ChangeEvent, FormEvent, useState } from "react";
 
 const pageSchema = z.object({
   page: fallback(z.number().min(1), 1).default(1),
@@ -73,6 +74,28 @@ function Events() {
     onSettled: () =>
       queryClient.invalidateQueries({ queryKey: ["get-events"] }),
   });
+  const updateMutation = useMutation({
+    mutationFn: updateEvent,
+    onSuccess: () => {
+      toast.success(t("events.updateEvent.toast.success"));
+    },
+    onError: (error) => {
+      toast.error(`${t("events.updateEvent.toast.error")}: ${error}`);
+    },
+    onSettled: () =>
+      queryClient.invalidateQueries({ queryKey: ["get-events"] }),
+  });
+
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
+  const [eventId, setEventId] = useState(0);
+  const [userId, setUserId] = useState("");
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const handleSubmit = (event: FormEvent) => {
+    event.preventDefault();
+    updateMutation.mutate({ eventId, title, description, userId });
+    setIsDialogOpen(false);
+  };
 
   const numOfPages = data?.totalCount ? Math.ceil(data.totalCount / 5) : 1;
 
@@ -207,46 +230,66 @@ function Events() {
                     </Dialog>
                   </TableCell>
                   <TableCell>
-                    <Dialog>
+                    <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
                       <DialogTrigger
                         type={"button"}
                         className={"hover:cursor-pointer"}
+                        onClick={() => {
+                          setTitle(event.title);
+                          setDescription(event.description ?? t("events.description"));
+                          setEventId(event.eventId);
+                          setUserId(event.userId);
+                        }}
                       >
                         <Brush />
                       </DialogTrigger>
                       <DialogContent className="sm:max-w-[425px]">
                         <DialogHeader>
-                          <DialogTitle>Edit event</DialogTitle>
+                          <DialogTitle>{t("events.updateEvent.dialog.dialogTitle")}</DialogTitle>
                           <DialogDescription>
-                            Make changes to your event here. Click save when
-                            you're done.
+                            {t("events.updateEvent.dialog.dialogDescription")}
                           </DialogDescription>
                         </DialogHeader>
-                        <div className="grid gap-4 py-4">
-                          <div className="grid grid-cols-4 items-center gap-4">
-                            <Label htmlFor="title" className="text-right">
-                              Title
-                            </Label>
-                            <Input
-                              id="title"
-                              value={event.title}
-                              className="col-span-3"
-                            />
+                        <form onSubmit={handleSubmit}>
+                          <div className="grid gap-4 py-4">
+                            <div className="grid grid-cols-4 items-center gap-4">
+                              <Label htmlFor="title" className="text-right">
+                                {t("events.updateEvent.form.firstLabel")}
+                              </Label>
+                              <Input
+                                id="title"
+                                value={title}
+                                onChange={(
+                                  event: ChangeEvent<HTMLInputElement>,
+                                ) => {
+                                  setTitle(event.target.value);
+                                }}
+                                className="col-span-3"
+                              />
+                            </div>
+                            <div className="grid grid-cols-4 items-center gap-4">
+                              <Label
+                                htmlFor="description"
+                                className="text-right"
+                              >
+                                {t("events.updateEvent.form.secondLabel")}
+                              </Label>
+                              <Input
+                                id="description"
+                                value={description}
+                                onChange={(
+                                  event: ChangeEvent<HTMLInputElement>,
+                                ) => {
+                                  setDescription(event.target.value);
+                                }}
+                                className="col-span-3"
+                              />
+                            </div>
                           </div>
-                          <div className="grid grid-cols-4 items-center gap-4">
-                            <Label htmlFor="description" className="text-right">
-                              Description
-                            </Label>
-                            <Input
-                              id="description"
-                              value={event.description ?? ""}
-                              className="col-span-3"
-                            />
-                          </div>
-                        </div>
-                        <DialogFooter>
-                          <Button type="submit">Save changes</Button>
-                        </DialogFooter>
+                          <DialogFooter>
+                            <Button type="submit">{t("events.updateEvent.form.button")}</Button>
+                          </DialogFooter>
+                        </form>
                       </DialogContent>
                     </Dialog>
                   </TableCell>

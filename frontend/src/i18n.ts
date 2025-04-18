@@ -96,6 +96,22 @@ i18n
               success: "Successfully deleted event!",
               error: "An error occurred",
             },
+            updateEvent: {
+              toast: {
+                success: "Successfully updated event!",
+                error: "An error occurred",
+              },
+              dialog: {
+                dialogTitle: "Edit event",
+                dialogDescription:
+                  "Make changes to your event here. Click save when you're done.",
+              },
+              form: {
+                firstLabel: "Title",
+                secondLabel: "Description",
+                button: "Save changes",
+              }
+            },
           },
           create: {
             title: {
@@ -202,6 +218,22 @@ i18n
             toast: {
               success: "Успешно изтрихте събитието!",
               error: "Изникна грешка",
+            },
+            updateEvent: {
+              toast: {
+                success: "Успешно редактирахте събитие!",
+                error: "Изникна грешка",
+              },
+              dialog: {
+                dialogTitle: "Редактирайте събитие",
+                dialogDescription:
+                    "Направете промени тук и натиснете 'Запази'",
+              },
+              form: {
+                firstLabel: "Заглавие",
+                secondLabel: "Описание",
+                button: "Запази промени",
+              }
             },
           },
           create: {
