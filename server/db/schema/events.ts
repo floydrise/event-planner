@@ -40,6 +40,4 @@ export const eventsPatchSchema = createUpdateSchema(eventsTable, {
 }).omit({
   eventId: true,
   createdAt: true,
-  time: true,
-  date: true,
 });

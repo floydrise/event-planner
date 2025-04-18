@@ -106,13 +106,15 @@ const eventsRoute = new Hono()
       }
     }),
     async (c) => {
-      const { title, description, userId } = c.req.valid("json");
+      const { title, description, userId, time, date } = c.req.valid("json");
       const { id } = c.req.param();
       const updatedEvent = await db
         .update(eventsTable)
         .set({
           title,
           description,
+          time,
+          date,
         })
         .where(
           and(
