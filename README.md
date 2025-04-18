@@ -8,6 +8,10 @@ Event planner web app with authentication/authorisation, internationalisation an
 mentioned below. Containerised using Docker and deployed to Render. Front-end build with React, bundled and then served
 as static files from Hono. Both front-end and back-end live in the same repo.
 
+## 🖲️ Functionality:
+
+A user can log in with their social account (Google/GitHub), fill a form and create an event - title, description, date and time, after which they'll be redirected to a list of events. They can view a preview of the events, expand an event and see the whole information, edit an event (title and description) and delete an event.
+
 ### 💻 Tech used:
 
 > [Bun](https://bun.sh/) - Runtime environment / Package manager
