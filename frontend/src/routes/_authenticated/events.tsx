@@ -43,6 +43,15 @@ import { useTranslation } from "react-i18next";
 import { Label } from "@/components/ui/label.tsx";
 import { Input } from "@/components/ui/input.tsx";
 import { ChangeEvent, FormEvent, useState } from "react";
+import { format, parse } from "date-fns";
+import { CalendarIcon } from "lucide-react";
+import { cn } from "@/lib/utils";
+import { Calendar } from "@/components/ui/calendar";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
 
 const pageSchema = z.object({
   page: fallback(z.number().min(1), 1).default(1),
@@ -91,9 +100,20 @@ function Events() {
   const [eventId, setEventId] = useState(0);
   const [userId, setUserId] = useState("");
   const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [date, setDate] = useState<Date>();
+  const [time, setTime] = useState("");
   const handleSubmit = (event: FormEvent) => {
     event.preventDefault();
-    updateMutation.mutate({ eventId, title, description, userId });
+    if (title.trim().length < 3) return;
+    if (updateMutation.isPending) return;
+    updateMutation.mutate({
+      eventId,
+      title,
+      description,
+      userId,
+      time,
+      date: date!.toDateString(),
+    });
     setIsDialogOpen(false);
   };
 
@@ -236,36 +256,57 @@ function Events() {
                         className={"hover:cursor-pointer"}
                         onClick={() => {
                           setTitle(event.title);
-                          setDescription(event.description ?? t("events.description"));
+                          setDescription(
+                            event.description ?? t("events.description"),
+                          );
                           setEventId(event.eventId);
                           setUserId(event.userId);
+                          setDate(new Date(event.date));
+                          setTime(
+                            format(
+                              parse(event.time!, "HH:mm:ss", new Date()),
+                              "HH:mm",
+                            ),
+                          );
                         }}
                       >
                         <Brush />
                       </DialogTrigger>
-                      <DialogContent className="sm:max-w-[425px]">
+                      <DialogContent
+                        onEscapeKeyDown={() => setIsDialogOpen(false)}
+                        className="sm:max-w-[425px]"
+                      >
                         <DialogHeader>
-                          <DialogTitle>{t("events.updateEvent.dialog.dialogTitle")}</DialogTitle>
+                          <DialogTitle>
+                            {t("events.updateEvent.dialog.dialogTitle")}
+                          </DialogTitle>
                           <DialogDescription>
                             {t("events.updateEvent.dialog.dialogDescription")}
                           </DialogDescription>
                         </DialogHeader>
                         <form onSubmit={handleSubmit}>
                           <div className="grid gap-4 py-4">
-                            <div className="grid grid-cols-4 items-center gap-4">
-                              <Label htmlFor="title" className="text-right">
-                                {t("events.updateEvent.form.firstLabel")}
-                              </Label>
-                              <Input
-                                id="title"
-                                value={title}
-                                onChange={(
-                                  event: ChangeEvent<HTMLInputElement>,
-                                ) => {
-                                  setTitle(event.target.value);
-                                }}
-                                className="col-span-3"
-                              />
+                            <div className="flex flex-col gap-4">
+                              <div className="grid grid-cols-4 items-center gap-4">
+                                <Label htmlFor="title" className="text-right">
+                                  {t("events.updateEvent.form.firstLabel")}
+                                </Label>
+                                <Input
+                                  id="title"
+                                  value={title}
+                                  onChange={(
+                                    event: ChangeEvent<HTMLInputElement>,
+                                  ) => {
+                                    setTitle(event.target.value);
+                                  }}
+                                  className="col-span-3"
+                                />
+                              </div>
+                              <span className={"text-red-500"}>
+                                {title.trim().length < 3
+                                  ? "• Title needs to be at least 3 chars long"
+                                  : ""}
+                              </span>
                             </div>
                             <div className="grid grid-cols-4 items-center gap-4">
                               <Label
@@ -285,9 +326,71 @@ function Events() {
                                 className="col-span-3"
                               />
                             </div>
+                            <div className="grid grid-cols-4 items-center gap-4">
+                              <Label
+                                htmlFor={"calendar"}
+                                className="text-right"
+                              >
+                                Date
+                              </Label>
+                              <Popover>
+                                <PopoverTrigger asChild>
+                                  <Button
+                                    variant={"outline"}
+                                    className={cn(
+                                      "w-fit",
+                                      !date && "text-muted-foreground",
+                                    )}
+                                  >
+                                    <CalendarIcon />
+                                    {date ? (
+                                      format(date, "PPP")
+                                    ) : (
+                                      <span>Pick a date</span>
+                                    )}
+                                  </Button>
+                                </PopoverTrigger>
+                                <PopoverContent
+                                  className="w-auto p-0"
+                                  align="start"
+                                >
+                                  <Calendar
+                                    id={"calendar"}
+                                    mode="single"
+                                    selected={date}
+                                    onSelect={setDate}
+                                    initialFocus
+                                  />
+                                </PopoverContent>
+                              </Popover>
+                            </div>
+                            <div className="grid grid-cols-4 items-center gap-4">
+                              <Label htmlFor="time" className="text-right">
+                                Time
+                              </Label>
+                              <Input
+                                type={"time"}
+                                id="time"
+                                value={time}
+                                onChange={(
+                                  event: ChangeEvent<HTMLInputElement>,
+                                ) => {
+                                  setTime(event.target.value);
+                                }}
+                                className="col-span-3"
+                              />
+                            </div>
                           </div>
                           <DialogFooter>
-                            <Button type="submit">{t("events.updateEvent.form.button")}</Button>
+                            <Button
+                              type="submit"
+                              disabled={
+                                title.trim().length < 3 ||
+                                updateMutation.isPending
+                              }
+                            >
+                              {t("events.updateEvent.form.button")}
+                            </Button>
                           </DialogFooter>
                         </form>
                       </DialogContent>

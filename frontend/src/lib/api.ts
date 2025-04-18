@@ -61,11 +61,15 @@ export const updateEvent = async ({
   title,
   description,
   userId,
+  time,
+  date,
 }: {
   eventId: number;
   title: string;
   description: string;
   userId: string;
+  time: string;
+  date: string;
 }) => {
   const res = await api.events[":id{[0-9]+}"].$patch({
     param: {
@@ -75,6 +79,8 @@ export const updateEvent = async ({
       title,
       description,
       userId,
+      time,
+      date
     },
   });
   if (!res.ok) throw new Error("Error during deleting occurred, try again!");
