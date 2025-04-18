@@ -110,6 +110,8 @@ i18n
                 firstLabel: "Title",
                 secondLabel: "Description",
                 button: "Save changes",
+                date: "Date",
+                time: "Time"
               }
             },
           },
@@ -233,6 +235,8 @@ i18n
                 firstLabel: "Заглавие",
                 secondLabel: "Описание",
                 button: "Запази промени",
+                date: "Дата",
+                time: "Час"
               }
             },
           },

@@ -331,7 +331,7 @@ function Events() {
                                 htmlFor={"calendar"}
                                 className="text-right"
                               >
-                                Date
+                                {t("events.updateEvent.form.date")}
                               </Label>
                               <Popover>
                                 <PopoverTrigger asChild>
@@ -366,7 +366,7 @@ function Events() {
                             </div>
                             <div className="grid grid-cols-4 items-center gap-4">
                               <Label htmlFor="time" className="text-right">
-                                Time
+                                {t("events.updateEvent.form.time")}
                               </Label>
                               <Input
                                 type={"time"}
