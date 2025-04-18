@@ -6,7 +6,7 @@ import {
   useMutation,
   useQueryClient,
 } from "@tanstack/react-query";
-import {useNavigate} from "@tanstack/react-router";
+import { useNavigate } from "@tanstack/react-router";
 
 export const api = hc<AppType>("/").api;
 
@@ -34,8 +34,8 @@ export const logOut = () => {
   });
 };
 
-export const getEvents = async (page:string) => {
-  const res = await api.events.$get({query: {page}});
+export const getEvents = async (page: string) => {
+  const res = await api.events.$get({ query: { page } });
   if (!res.ok) throw new Error("Error while fetching events");
   return await res.json();
 };
@@ -50,6 +50,31 @@ export const deleteEvent = async (eventId: number) => {
   const res = await api.events[":id{[0-9]+}"].$delete({
     param: {
       id: String(eventId),
+    },
+  });
+  if (!res.ok) throw new Error("Error during deleting occurred, try again!");
+  return await res.json();
+};
+
+export const updateEvent = async ({
+  eventId,
+  title,
+  description,
+  userId,
+}: {
+  eventId: number;
+  title: string;
+  description: string;
+  userId: string;
+}) => {
+  const res = await api.events[":id{[0-9]+}"].$patch({
+    param: {
+      id: String(eventId),
+    },
+    json: {
+      title,
+      description,
+      userId,
     },
   });
   if (!res.ok) throw new Error("Error during deleting occurred, try again!");

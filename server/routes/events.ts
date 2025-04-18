@@ -1,8 +1,12 @@
 import { Hono } from "hono";
 import { zValidator } from "@hono/zod-validator";
-import { eventsPostSchema, eventsTable } from "../db/schema/events";
+import {
+  eventsPatchSchema,
+  eventsPostSchema,
+  eventsTable,
+} from "../db/schema/events";
 import { db } from "../db";
-import {and, asc, count, desc, eq} from "drizzle-orm";
+import { and, asc, count, desc, eq } from "drizzle-orm";
 import { requireAuth } from "../middleware";
 import { z } from "zod";
 
@@ -34,11 +38,20 @@ const eventsRoute = new Hono()
         .limit(limit + 1)
         .offset(offset);
       const totalCount = await db
-          .select({count: count()})
-          .from(eventsTable)
-          .where(eq(eventsTable.userId, user.id)).then((data) => data[0])
+        .select({ count: count() })
+        .from(eventsTable)
+        .where(eq(eventsTable.userId, user.id))
+        .then((data) => data[0]);
       const hasNext = events.length > limit;
-      return c.json({ events: events.slice(0, limit), page, hasNext, totalCount: totalCount.count }, 200);
+      return c.json(
+        {
+          events: events.slice(0, limit),
+          page,
+          hasNext,
+          totalCount: totalCount.count,
+        },
+        200,
+      );
     },
   )
   .get("/:id{[0-9]+}", requireAuth, async (c) => {
@@ -83,6 +96,35 @@ const eventsRoute = new Hono()
       .returning()
       .then((event) => event[0]);
     return c.json({ deletedEvent }, 200);
-  });
+  })
+  .patch(
+    "/:id{[0-9]+}",
+    requireAuth,
+    zValidator("json", eventsPatchSchema, (result, c) => {
+      if (!result.success) {
+        return c.json({ msg: "Bad request" }, 400);
+      }
+    }),
+    async (c) => {
+      const { title, description, userId } = c.req.valid("json");
+      const { id } = c.req.param();
+      const updatedEvent = await db
+        .update(eventsTable)
+        .set({
+          title,
+          description,
+        })
+        .where(
+          and(
+            eq(eventsTable.eventId, Number(id)),
+            eq(eventsTable.userId, userId),
+          ),
+        )
+        .returning()
+        .then((res) => res[0]);
+
+      return c.json({ updatedEvent }, 200);
+    },
+  );
 
 export default eventsRoute;

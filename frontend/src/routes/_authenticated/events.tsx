@@ -32,14 +32,17 @@ import {
   useQuery,
   useQueryClient,
 } from "@tanstack/react-query";
-import { deleteEvent, getEvents } from "@/lib/api.ts";
+import { deleteEvent, getEvents, updateEvent } from "@/lib/api.ts";
 import { Button } from "@/components/ui/button.tsx";
-import { BadgeInfo, TrashIcon, TriangleAlert } from "lucide-react";
+import { BadgeInfo, Brush, TrashIcon, TriangleAlert } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton.tsx";
 import { toast } from "sonner";
 import { z } from "zod";
 import { zodValidator, fallback } from "@tanstack/zod-adapter";
 import { useTranslation } from "react-i18next";
+import { Label } from "@/components/ui/label.tsx";
+import { Input } from "@/components/ui/input.tsx";
+import { ChangeEvent, FormEvent, useState } from "react";
 
 const pageSchema = z.object({
   page: fallback(z.number().min(1), 1).default(1),
@@ -60,7 +63,7 @@ function Events() {
     placeholderData: keepPreviousData,
     staleTime: 1000 * 60 * 5,
   });
-  const mutation = useMutation({
+  const deleteMutation = useMutation({
     mutationFn: deleteEvent,
     onSuccess: () => {
       toast.success(t("events.toast.success"));
@@ -71,6 +74,28 @@ function Events() {
     onSettled: () =>
       queryClient.invalidateQueries({ queryKey: ["get-events"] }),
   });
+  const updateMutation = useMutation({
+    mutationFn: updateEvent,
+    onSuccess: () => {
+      toast.success(t("events.updateEvent.toast.success"));
+    },
+    onError: (error) => {
+      toast.error(`${t("events.updateEvent.toast.error")}: ${error}`);
+    },
+    onSettled: () =>
+      queryClient.invalidateQueries({ queryKey: ["get-events"] }),
+  });
+
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
+  const [eventId, setEventId] = useState(0);
+  const [userId, setUserId] = useState("");
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const handleSubmit = (event: FormEvent) => {
+    event.preventDefault();
+    updateMutation.mutate({ eventId, title, description, userId });
+    setIsDialogOpen(false);
+  };
 
   const numOfPages = data?.totalCount ? Math.ceil(data.totalCount / 5) : 1;
 
@@ -103,7 +128,16 @@ function Events() {
     return pages;
   };
 
-  const tableHeads = ["title", "description", "time", "date", "info", "delete"];
+  const tableHeads = [
+    "id",
+    "title",
+    "description",
+    "time",
+    "date",
+    "info",
+    "edit",
+    "delete",
+  ];
 
   return (
     <>
@@ -118,7 +152,7 @@ function Events() {
             <p className={"font-base text-2xl"}>{t("events.emptyTable")}</p>
           </div>
         ) : (
-          <Table className={`${numOfPages < 2 ? "mb-24": "mb-0"} md:mb-0`}>
+          <Table className={`${numOfPages < 2 ? "mb-24" : "mb-0"} md:mb-0`}>
             <TableCaption>{t("events.tableCaption")}</TableCaption>
             <TableHeader>
               <TableRow>
@@ -132,6 +166,7 @@ function Events() {
             <TableBody>
               {data?.events.map((event) => (
                 <TableRow key={event.eventId}>
+                  <TableCell>{event.eventId}</TableCell>
                   <TableCell>
                     {event.title.length > 20
                       ? event.title.slice(0, 12) + "..."
@@ -195,12 +230,77 @@ function Events() {
                     </Dialog>
                   </TableCell>
                   <TableCell>
+                    <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+                      <DialogTrigger
+                        type={"button"}
+                        className={"hover:cursor-pointer"}
+                        onClick={() => {
+                          setTitle(event.title);
+                          setDescription(event.description ?? t("events.description"));
+                          setEventId(event.eventId);
+                          setUserId(event.userId);
+                        }}
+                      >
+                        <Brush />
+                      </DialogTrigger>
+                      <DialogContent className="sm:max-w-[425px]">
+                        <DialogHeader>
+                          <DialogTitle>{t("events.updateEvent.dialog.dialogTitle")}</DialogTitle>
+                          <DialogDescription>
+                            {t("events.updateEvent.dialog.dialogDescription")}
+                          </DialogDescription>
+                        </DialogHeader>
+                        <form onSubmit={handleSubmit}>
+                          <div className="grid gap-4 py-4">
+                            <div className="grid grid-cols-4 items-center gap-4">
+                              <Label htmlFor="title" className="text-right">
+                                {t("events.updateEvent.form.firstLabel")}
+                              </Label>
+                              <Input
+                                id="title"
+                                value={title}
+                                onChange={(
+                                  event: ChangeEvent<HTMLInputElement>,
+                                ) => {
+                                  setTitle(event.target.value);
+                                }}
+                                className="col-span-3"
+                              />
+                            </div>
+                            <div className="grid grid-cols-4 items-center gap-4">
+                              <Label
+                                htmlFor="description"
+                                className="text-right"
+                              >
+                                {t("events.updateEvent.form.secondLabel")}
+                              </Label>
+                              <Input
+                                id="description"
+                                value={description}
+                                onChange={(
+                                  event: ChangeEvent<HTMLInputElement>,
+                                ) => {
+                                  setDescription(event.target.value);
+                                }}
+                                className="col-span-3"
+                              />
+                            </div>
+                          </div>
+                          <DialogFooter>
+                            <Button type="submit">{t("events.updateEvent.form.button")}</Button>
+                          </DialogFooter>
+                        </form>
+                      </DialogContent>
+                    </Dialog>
+                  </TableCell>
+                  <TableCell>
                     <Button
                       className={"hover:cursor-pointer"}
                       size={"icon"}
-                      disabled={mutation.isPending}
+                      variant={"ghost"}
+                      disabled={deleteMutation.isPending}
                       onClick={() => {
-                        mutation.mutate(event.eventId);
+                        deleteMutation.mutate(event.eventId);
                       }}
                     >
                       <TrashIcon />
