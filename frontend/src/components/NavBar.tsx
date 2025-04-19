@@ -5,6 +5,8 @@ import { ThemeSwitcher } from "@/components/mode-toggle.tsx";
 import { useQuery } from "@tanstack/react-query";
 import { getSessionQueryOptions } from "@/lib/api.ts";
 import { useTranslation } from "react-i18next";
+import { motion, useScroll, useMotionValueEvent } from "motion/react";
+import { useState } from "react";
 
 const lngs = ["en-GB", "bg-BG"];
 
@@ -12,8 +14,26 @@ const NavBar = () => {
   const { data } = useQuery(getSessionQueryOptions);
   const { i18n, t } = useTranslation();
   const currLang = i18n.resolvedLanguage;
+  const [hidden, setHidden] = useState(false);
+  const { scrollY } = useScroll();
+  useMotionValueEvent(scrollY, "change", (latestValue) => {
+    const previous = scrollY.getPrevious();
+    if (latestValue > previous! && latestValue > 50) {
+      setHidden(true);
+    } else {
+      setHidden(false);
+    }
+  });
   return (
-    <nav className="p-4 flex justify-between lg:sticky lg:top-0 fixed bottom-0 w-full backdrop-blur-3xl rounded-t-2xl lg:rounded-none z-10 items-center gap-2">
+    <motion.nav
+      variants={{
+        visible: { y: 0 },
+        hidden: { y: window.innerWidth >= 1024 ? "-100%" : "100%" },
+      }}
+      animate={hidden ? "hidden" : "visible"}
+      transition={{ duration: 0.35, ease: "easeInOut" }}
+      className="p-4 flex justify-between lg:sticky lg:top-0 fixed bottom-0 w-full backdrop-blur-3xl rounded-t-2xl lg:rounded-none z-10 items-center gap-2"
+    >
       <Link to={"/"} className={"md:ml-2 shrink-0"}>
         <img
           src={"/planning.png"}
@@ -60,7 +80,7 @@ const NavBar = () => {
           </Button>
         </div>
       </div>
-    </nav>
+    </motion.nav>
   );
 };
 
